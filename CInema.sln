@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CInema", "CInema\CInema.csproj", "{2C3C2451-3D89-48FC-B972-E12A99510745}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cinema", "CInema\Cinema.csproj", "{2C3C2451-3D89-48FC-B972-E12A99510745}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

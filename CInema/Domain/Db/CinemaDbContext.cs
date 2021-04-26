@@ -1,14 +1,11 @@
-﻿using CInema.Domain.Models.User;
-using Microsoft.AspNetCore.Identity;
+﻿using Cinema.Domain.Models;
+using Cinema.Models;
+using Cinema.Models.Common;
+using Cinema.Models.Film;
+using Cinema.Models.Users;
 using Microsoft.EntityFrameworkCore;
-using Oracle.ManagedDataAccess.Client;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace CInema.Domain.Db
+namespace Cinema.Domain.Db
 {
     public class CinemaDbContext : DbContext
     {
@@ -17,17 +14,17 @@ namespace CInema.Domain.Db
 
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseOracle("");
-            }
-        }
+        public DbSet<BoxOffice> BoxOffices { get; set; }
+        public DbSet<Country> Countries { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<Film> Films { get; set; }
+        public DbSet<FilmSemp> FilmSemps { get; set; }
+        public DbSet<FilmStudio> FilmStudios { get; set; }
+        public DbSet<Genre> Genres { get; set; }
+        public DbSet<Rating> Ratings { get; set; }
+        public DbSet<RoleUser> RoleUser { get; set; }
+        public DbSet<SessionFilms> SessionFilms { get; set; }
+        public DbSet<User> Users { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-
-        }
     }
 }

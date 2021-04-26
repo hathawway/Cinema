@@ -1,6 +1,6 @@
-using CInema.Domain.Db;
-using CInema.Service;
-using CInema.Service.Interfaces;
+using Cinema.Domain.Db;
+using Cinema.Service;
+using Cinema.Service.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CInema
+namespace Cinema
 {
     public class Startup
     {
@@ -29,13 +29,16 @@ namespace CInema
         {
             services.AddControllersWithViews();
 
-
             services.AddTransient<IUser, UserService>();
 
+            var login = Configuration.GetConnectionString("OracleDBConnection");
+            
+            string cadenaCone = "User Id=kino;Password=" + ((char)34).ToString() + "kino" + ((char)34).ToString() + ";Data Source=localhost:1521/orcl.docker.internal;";
+            
             services.AddDbContext<CinemaDbContext>(options => 
-            {
-                options.UseOracle(Configuration.GetConnectionString("OracleDBConnection"));
-            });
+                {
+                    options.UseOracle(login);
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
