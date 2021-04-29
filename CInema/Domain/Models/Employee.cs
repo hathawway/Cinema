@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Cinema.Domain.Models
 {
     [Table("USERS")]
-    public class User
+    public class Employee
     {
         [Column("LOGIN")]
         [Key]

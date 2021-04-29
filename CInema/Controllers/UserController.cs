@@ -1,14 +1,12 @@
 ﻿using Cinema.Domain.Db;
 using Cinema.Domain.Models;
-using Cinema.Models;
+using Cinema.Domain.Models.Users;
 using Cinema.Models.User;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -98,6 +96,60 @@ namespace Cinema.Controllers
 
             return View(model);
         }
+        /// <summary>
+        /// Регистрация нового пользователя
+        /// </summary>
+        /// <param name="model">Данные о новом пользователе</param>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RegistrationNewUserAsync(NewUserViewModel model)
+        {
+
+            if (!ModelState.IsValid)
+                return View(model);
+
+            if (_userManager.Users.Any(x => x.Email.ToLower() == model.EmailAddress.ToLower()))
+                ModelState.AddModelError("Email", "Такой email уже используеся в системе");
+
+            if (ModelState.ErrorCount > 0)
+                return View(model);
+            /*
+            var profile = new Domain.Models.Users.Employee
+            {
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+            };
+            */
+            var user = new User
+            {
+                Email = model.EmailAddress,
+                UserName = model.EmailAddress,
+            };
+
+            var result = await _userManager.CreateAsync(user, model.Password);
+            if (!result.Succeeded)
+            {
+                AddErrors(result);
+                return View(model);
+            }
+
+            //await _userManager.AddToRoleAsync(user, SecurityConstants.СustomerRole);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", "Home");
+        }
+        /// <summary>
+        /// Выход из системы
+        /// </summary>
+        /// <param name="signInManager">Менеджер авторизации</param>
+        [HttpGet]
+        public async Task<IActionResult> Logout([FromServices] SignInManager<User> signInManager)
+        {
+            await signInManager.SignOutAsync();
+
+
+            return RedirectToAction("Index", "Home");
+        }
 
         /// <summary>
         /// Возвращение страницы в случае блокировки пользователя
@@ -105,6 +157,35 @@ namespace Cinema.Controllers
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Lockout()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// Подтверждение сброса пароля
+        /// </summary>
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ResetPasswordConfirmation()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// Страница запрета доступа
+        /// </summary>
+        [HttpGet]
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+
+
+        /// <summary>
+        /// Регистрация нового пользователя
+        /// </summary>
+        [HttpGet]
+        public IActionResult RegistrationNewUser()
         {
             return View();
         }

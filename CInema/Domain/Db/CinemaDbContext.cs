@@ -15,7 +15,7 @@ namespace Cinema.Domain.Db
 
         public DbSet<BoxOffice> BoxOffices { get; set; }
         public DbSet<Country> Countries { get; set; }
-        public DbSet<Employee> Employees { get; set; }
+        public DbSet<Models.Users.Employee> Employees { get; set; }
         public DbSet<Film> Films { get; set; }
         public DbSet<FilmSemp> FilmSemps { get; set; }
         public DbSet<FilmStudio> FilmStudios { get; set; }
@@ -23,7 +23,7 @@ namespace Cinema.Domain.Db
         public DbSet<Rating> Ratings { get; set; }
         public DbSet<RoleUser> RoleUser { get; set; }
         public DbSet<SessionFilms> SessionFilms { get; set; }
-        public DbSet<User> Users { get; set; }
+        public DbSet<Models.Employee> Users { get; set; }
 
     }
 }
