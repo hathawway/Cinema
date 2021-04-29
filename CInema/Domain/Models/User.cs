@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Cinema.Models
+namespace Cinema.Domain.Models
 {
     [Table("USERS")]
     public class User

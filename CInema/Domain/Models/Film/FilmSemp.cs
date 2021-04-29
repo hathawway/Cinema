@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Cinema.Models
+namespace Cinema.Domain.Models.Film
 {
     [Table("FILMSEMP")]
     [Keyless]

@@ -1,8 +1,7 @@
 ﻿using Cinema.Domain.Models;
-using Cinema.Models;
-using Cinema.Models.Common;
-using Cinema.Models.Film;
-using Cinema.Models.Users;
+using Cinema.Domain.Models.Common;
+using Cinema.Domain.Models.Film;
+using Cinema.Domain.Models.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace Cinema.Domain.Db

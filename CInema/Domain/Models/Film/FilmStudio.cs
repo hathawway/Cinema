@@ -1,16 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Cinema.Models.Common
+namespace Cinema.Domain.Models.Film
 {
-    [Table("GENRE")]
-    public class Genre
+    [Table("FILMSTUDIO")]
+    public class FilmStudio
     {
-        [Column("KOD_GENRE")]
+        [Column("KOD_FILMSTUDIO")]
         [Key]
         public long Kod { get; set; }
 
-        [Column("NAME_GENRE")]
+        [Column("NAME_FILMSTUDIO")]
         public string Name { get; set; }
     }
 }
