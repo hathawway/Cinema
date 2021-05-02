@@ -2,47 +2,104 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - CInema</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />    
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Raleway:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/style1.css">
+    <title>BStore</title>
+
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">CInema</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
+    <header class="header">
         <div class="container">
-            &copy; 2021 - CInema - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="header__inner" id="main">
+
+                <nav class="nav">
+                    <a class="nav__link" href="/Home/Index">Главная</a>
+
+                    <a class="nav__link" href="/Catalog">Каталог</a>
+                    <a class="nav__link" href="/Home/Index/#sait">О сайте</a>
+                    <a class="nav__link" href="#contacts">Контакты</a>
+                    <a class="nav__link" href="#contacts">hui2</a>
+                    @await Html.PartialAsync("_LoginPartial")
+
+                    @if (true)
+                    {
+                        <a class="nav__link" href="/Account/Cart">
+                            <img src="~/images/mainImages/shopping-cart.png" alt="Корзина" style="vertical-align: middle">Корзина
+                        </a>
+                    }
+
+
+                </nav>
+
+            </div>
+        </div>
+
+    </header>
+
+    <main class="main__intro" role="main">
+        @RenderBody()
+    </main>
+
+
+
+    <footer class="footer" id="contacts">
+        <div class="container">
+            <div class="footer__inner">
+                <div class="footer__col">
+                    <div class="footer__logo">Навигация</div>
+                    <div class="footer__item">
+                        <a class="footer__link" href="/Home/Index">Главная</a>
+                    </div>
+
+                    <div class="footer__item">
+                        <a class="footer__link" href="/Catalog">Каталог</a>
+                    </div>
+                    <div class="footer__item">
+                        <a class="footer__link" href="#sait">О сайте</a>
+                    </div>
+                    <div class="footer__item">
+                        <a class="footer__link" href="#contacts">Контакты</a>
+                    </div>
+
+                </div>
+
+                <div class="footer__col--second">
+                    <div class="footer__logo">Информация</div>
+                    <div class="text">
+                        Сайт был создан двумя клевыми челами:
+                    </div>
+                    <div class="text">
+                        Близнецы - самыме яркиме и авантюрные личности во всей вселенной.
+                        Двойственность характера и непостоянство являются их главными чертами, поэтому они пишут клевый фронт.
+                    </div>
+                    <div class="text">
+                        Раки - успешные, стремящиеся к развитию и совершенствованию.
+                        В каждом Раке есть внутренний несгибаемый стержень, поэтому им хватает терпения написать сложный бэк.
+                    </div>
+                </div>
+
+                <div class="footer__col">
+                    <div class="footer__logo">Контакты</div>
+                    <div class="text">123456@gmail.com</div>
+                    <div class="text">789100@gmail.com</div>
+                </div>
+
+            </div>
+            <div class="footer__copyright">
+                <div class="text">&copy; 2020 - BStore</div>
+            </div>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    @RenderSection("Scripts", required: false)
+
+    <script src="http://code.jquery.com/jquery-2.0.2.min.js"></script>
+    
+
 </body>
 </html>
+

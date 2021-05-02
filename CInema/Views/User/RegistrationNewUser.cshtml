@@ -2,10 +2,12 @@
 
 @{ ViewData["Title"] = "Регистрация"; }
 
-<form class="container__reg" asp-action="RegistrationNewUser" method="post">
+
+
+<form class="container__reg" asp-controller="User" asp-action="RegistrationNewUser" method="post">
     <div class="logo">
         <div class="container__logo">Регистрация</div>
-        <button class="action-close" type="button"></button>
+        <button class="action-close" type="button" onclick="javascript:window.close('','_parent','');"></button>
     </div>
 
 
@@ -13,14 +15,14 @@
     <label asp-for="EmailAddress">
         <div class="input__logo">Email</div>
     </label>
-    <input asp-for="EmailAddress" class="input__login" type="email" title="name" placeholder="Email">
+    <input asp-for="EmailAddress" class="input__login" type="email" title="email" placeholder="Email">
 
     <div class="span__input__login"><span asp-validation-for="EmailAddress"></span></div>
 
     <label asp-for="FirstName">
         <div class="input__logo">Имя</div>
     </label>
-    <input asp-for="FirstName" class="input__login" type="text" title="name" placeholder="Имя">
+    <input asp-for="FirstName" class="input__login" type="text" title="FirstName" placeholder="Имя">
 
 
     <div class="span__input__login"><span asp-validation-for="FirstName"></span></div>
@@ -29,7 +31,7 @@
     <label asp-for="LastName">
         <div class="input__logo">Фамилия</div>
     </label>
-    <input asp-for="LastName" class="input__login" type="text" title="name" placeholder="Фамилия">
+    <input asp-for="LastName" class="input__login" type="text" title="LastName" placeholder="Фамилия">
 
     <div class="span__input__login"><span asp-validation-for="LastName"></span></div>
 
@@ -38,14 +40,14 @@
     <label asp-for="Password">
         <div class="input__logo">Пароль</div>
     </label>
-    <input asp-for="Password" class="input__login" type="password" title="name" placeholder="Пароль">
+    <input asp-for="Password" class="input__login" type="password" title="password" placeholder="Пароль">
 
     <div class="span__input__login"><span asp-validation-for="Password"></span></div>
 
     <label asp-for="ConfirmPassword">
         <div class="input__logo">Подтверждение пароля</div>
     </label>
-    <input asp-for="ConfirmPassword" class="input__login" type="password" title="name" placeholder="Пароль">
+    <input asp-for="ConfirmPassword" class="input__login" type="password" title="password" placeholder="Пароль">
 
     <div class="span__input__login"><span asp-validation-for="ConfirmPassword"></span></div>
 

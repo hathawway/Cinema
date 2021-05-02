@@ -1,20 +1,17 @@
-﻿@using Microsoft.AspNetCore.Identity
-
-@inject SignInManager<User> SignInManager
-@inject UserManager<User> UserManager
-
-
-
+﻿
     <title>@ViewData["Title"] - Файлообменник</title>
  
-    @if (SignInManager.IsSignedIn(User))
+    @if(true) //была проверка на логин
     {
 
 <div class="dropdown">
-    <button class="dropbtn" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="~/images/mainImages/login.png" alt="" style="vertical-align: middle">@UserManager.GetUserName(User)</button>
+    <button class="dropbtn" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="~/images/mainImages/login.png" alt="" style="vertical-align: middle">
+    "User damn name"</button>
     <div class="dropdown-content">
-        <a class="dropdown-content__link" asp-controller="User" asp-action="Account">Личный кабинет</a>
+        <a class="dropdown-content__link" asp-controller="Account" asp-action="Index">Личный кабинет</a>
         <a class="dropdown-content__link" asp-controller="User" asp-action="Logout">Выход</a>
+       
+
     </div>
 </div> }
 else
@@ -25,4 +22,11 @@ else
         <a class="dropdown-content__link" asp-controller="User" asp-action="RegistrationNewUser">Регистрация</a>
         <a class="dropdown-content__link" asp-controller="User" asp-action="Login">Вход</a>
     </div>
-</div>}
+</div>
+
+}
+
+
+
+
+

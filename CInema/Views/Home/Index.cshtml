@@ -1,8 +1,72 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@{ ViewData["Title"] = "BStore"; }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+<!---
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Raleway:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/style1.css">
+    <title>BStore</title>
+</head>
+
+-->
+
+
+
+<div class="intro">
+
+    <div class="inner__col">
+        <div class="container__col  container__col--first">
+            <img src="~/images/3.png" alt="">
+        </div>
+        <div class="container__col  container__col--second">
+            <form class="search__books" actions="/" method="get" asp-controller="Catalog" asp-action="" method="get">
+                <input class="input" type="search" title="name" name="query" placeholder="Поиск...">
+                <button class="btn__input" type="submit"><img src="~/images/mainImages/zoom-out.png" alt="Лупа" style="vertical-align: middle">Поиск</button>
+            </form>
+        </div>
+    </div>
 </div>
+
+
+    <div class="main__page">
+        <div class="main__logo-page">BStore</div>
+        <div class="text-page">Ищите все нужные ресурсы с BStore</div>
+        <button class="btn__main" ><a style="color:#fff; text-decoration:none" href="/Catalog">Начать</a></button>
+    </div>
+
+
+    <div class="mini__section"></div>
+
+
+    <div class="section">
+        <div class="container">
+            <div class="main__logo" id="sait">О сайте</div>
+            <div class="text">
+                Уран и Сатурн, управляющие знаком Водолея, делают их натуру двойственной и противоречивой. 
+                Этот знак таит в себе много противоположных черт и качеств, удачно сочетая их в нужной ситуации. 
+                
+                Проекты, рождающиеся под знаком Водолея, являются одновременно романтиками и реалистами. 
+                Они способны мечтать и планировать, не теряя почвы под ногами. 
+                Водолеи – это всегда новаторы, индивидуалисты, они никогда не следуют за большинством, выбирая свой, исключительный путь.
+                В идеях намного опережают любого, обладают блестящим умом, поэтому способны построить себе карьеру там, где требуется нестандартное мышление и дальновидные, инновационные решения.
+
+            </div>
+
+            <div class="main__section">
+                <div class="main__col">
+                    <div class="footer__logo">Something</div>
+                    <img src="~/images/sun.jpg" alt="">
+                </div>
+
+                <div class="main__col">
+                    <div class="footer__logo">Something</div>
+                    <img src="~/images/sun.jpg" alt="">
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+

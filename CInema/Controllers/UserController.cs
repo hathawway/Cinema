@@ -1,10 +1,9 @@
 ﻿using Cinema.Domain.Db;
-using Cinema.Domain.Models;
 using Cinema.Domain.Models.Users;
 using Cinema.Models.User;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Linq;
@@ -16,9 +15,7 @@ namespace Cinema.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly CinemaDbContext _context;
-        private readonly UserManager<User> _userManager;
         public UserController(
-            UserManager<User> userManager,
             ILogger<HomeController> logger,
             CinemaDbContext context)
         {
@@ -41,6 +38,7 @@ namespace Cinema.Controllers
         [HttpGet]
         public IActionResult Account()
         {
+            // TODO: а надо ли вообще ?
             var user = _context.Employees
                 .Select(x => x).OrderByDescending(x => x.SecondName);
             return View(user);
@@ -52,12 +50,9 @@ namespace Cinema.Controllers
         /// <param name="returnUrl">Путь перехода после авторизации</param>
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> Login(string returnUrl = null)
+        public IActionResult Login(string returnUrl = null)
         {
-            // Очистить существующие куки для корректного логина
-            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
-
-            ViewData["ReturnUrl"] = returnUrl;
+            var g = HttpContext.Session.GetString("_userIsLogged");
             return View();
         }
 
@@ -70,27 +65,19 @@ namespace Cinema.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login([FromServices] SignInManager<User> signInManager, LoginViewModel model, string returnUrl = null)
+        public IActionResult Login(LoginViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = _userManager.FindByNameAsync(model.Login).Result;
+                var user = _context.Users.Where(x => x.Login == model.Login).Select(x => x).ToArray()[0];
                 if (user == null)
                 {
                     ModelState.AddModelError(string.Empty, "Проверьте имя пользователя и пароль");
                     return View(model);
                 }
+                HttpContext.Session.SetString("_userIsLogged", user.Login);
 
-                var result = await signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, lockoutOnFailure: false);
-
-                if (result.Succeeded)
-                    return RedirectToLocal(returnUrl);
-
-                if (result.IsLockedOut)
-                    return RedirectToAction(nameof(Lockout));
-
-                ModelState.AddModelError(string.Empty, "Неверный логин или пароль");
                 return View(model);
             }
 
@@ -102,38 +89,41 @@ namespace Cinema.Controllers
         /// <param name="model">Данные о новом пользователе</param>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RegistrationNewUserAsync(NewUserViewModel model)
+        public IActionResult RegistrationNewUser(NewUserViewModel model)
         {
 
             if (!ModelState.IsValid)
                 return View(model);
-
-            if (_userManager.Users.Any(x => x.Email.ToLower() == model.EmailAddress.ToLower()))
+            // TODO: ЛОГИН ==  МЕЙЛ ?
+            if (_context.Users.Any(x => x.Login.ToLower() == model.EmailAddress.ToLower()))
                 ModelState.AddModelError("Email", "Такой email уже используеся в системе");
 
-            if (ModelState.ErrorCount > 0)
-                return View(model);
-            /*
-            var profile = new Domain.Models.Users.Employee
+            var profile = new Employee
             {
                 FirstName = model.FirstName,
-                LastName = model.LastName,
+                SecondName = model.LastName,
             };
-            */
+
             var user = new User
             {
-                Email = model.EmailAddress,
-                UserName = model.EmailAddress,
+                Login = model.EmailAddress,
+                Password = model.Password,
+                RoleId = 1
             };
 
-            var result = await _userManager.CreateAsync(user, model.Password);
-            if (!result.Succeeded)
-            {
-                AddErrors(result);
-                return View(model);
-            }
+            _context.Users.Add(user);
 
-            //await _userManager.AddToRoleAsync(user, SecurityConstants.СustomerRole);
+            HttpContext.Session.SetString("_userIsLogged", user.Login);
+            
+            /* var result = await _userManager.CreateAsync(user, model.Password);
+              if (!result.Succeeded)
+              {
+                  AddErrors(result);
+                  return View(model);
+              }
+
+              //await _userManager.AddToRoleAsync(user, SecurityConstants.СustomerRole);
+            */
             _context.SaveChanges();
 
             return RedirectToAction("Index", "Home");
@@ -143,10 +133,8 @@ namespace Cinema.Controllers
         /// </summary>
         /// <param name="signInManager">Менеджер авторизации</param>
         [HttpGet]
-        public async Task<IActionResult> Logout([FromServices] SignInManager<User> signInManager)
+        public async Task<IActionResult> Logout()
         {
-            await signInManager.SignOutAsync();
-
 
             return RedirectToAction("Index", "Home");
         }
@@ -191,14 +179,6 @@ namespace Cinema.Controllers
         }
 
         #region Helpers
-
-        private void AddErrors(IdentityResult result)
-        {
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Description);
-            }
-        }
 
         private IActionResult RedirectToLocal(string returnUrl)
         {

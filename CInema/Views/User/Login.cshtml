@@ -1,15 +1,15 @@
 ﻿@model LoginViewModel
-@inject SignInManager<User> SignInManager
 
 @{ ViewData["Title"] = "Авторизация"; }
-<form class="containerLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" asp-route="default" method="post">
+
+<form class="containerLogin" asp-controller="User" asp-action="Login"  method="post">
     <div class="logo">
         <div class="container__logo">Авторизация</div>
-        <button class="action-close" type="button"></button>
+        <button class="action-close" type="button" ></button>
     </div>
     <label asp-for="Login"><div class="input__logo">Логин</div></label>
 
-    <input class="input__login" type="email" title="name" placeholder="Email" asp-for="Login">
+    <input class="input__login" type="email" title="login" placeholder="Email" asp-for="Login">
     <div class="span__input__login"><span asp-validation-for="Login"></span></div>
 
     <label asp-for="Password"><div class="input__logo">Пароль</div></label>
@@ -28,6 +28,7 @@
     </div>
 
 </form>
+
 
 
 @section Scripts {

@@ -1,9 +1,22 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Cinema.Domain.Models.Users
 {
-    public class User : IdentityUser<long>
+    [Table("USERS")]
+    public class User
     {
+        [Column("LOGIN")]
+        [Key]
+        public string Login { get; set; }
+        [Column("PASSWORD")]
+        public string Password { get; set; }
+        [Column("KOD_ROLEUSERS")]
+        public long RoleId{ get; set; }
+        [Column("KOD_EMPLOYEE")]
+        public long EmployeeKod { get; set; }
 
+        [ForeignKey("EmployeeKod")]
+        public Employee Employee { get; set; }
     }
 }
