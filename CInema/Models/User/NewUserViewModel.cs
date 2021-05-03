@@ -8,13 +8,13 @@ namespace Cinema.Models.User
         /// Почта
         /// </summary>
         [Required]
-        [Display(Name = "Email")]
-        public string EmailAddress { get; set; }
+        [Display(Name = "Логин")]
+        public string Login { get; set; }
         /// <summary>
         /// Логин
         /// </summary>
         [Required]
-        [Display(Name = "Имя пользователя")]
+        [Display(Name = "Имя")]
         public string FirstName { get; set; }
         /// <summary>
         /// Фамилия

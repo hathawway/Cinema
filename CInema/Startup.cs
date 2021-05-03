@@ -29,6 +29,8 @@ namespace Cinema
 
             services.AddTransient<IUser, UserService>();
 
+            services.AddSingleton<ISignIn, OwnSignInManager>();
+
             var login = Configuration.GetConnectionString("OracleDBConnection");
             
             string cadenaCone = "User Id=kino;Password=" + ((char)34).ToString() + "kino" + ((char)34).ToString() + ";Data Source=localhost:1521/orcl.docker.internal;";

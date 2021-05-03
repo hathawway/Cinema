@@ -1,5 +1,6 @@
 ﻿using Cinema.Domain.Db;
 using Cinema.Domain.Models;
+using Cinema.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,10 +13,15 @@ namespace Cinema.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly CinemaDbContext _context;
-        public HomeController(ILogger<HomeController> logger, CinemaDbContext context)
+        private readonly ISignIn _signInManager;
+        public HomeController(
+            ILogger<HomeController> logger,
+            CinemaDbContext context,
+            ISignIn signInManager)
         {
             _logger = logger;
             _context = context;
+            _signInManager = signInManager;
         }
 
         public IActionResult Index()
@@ -34,18 +40,8 @@ namespace Cinema.Controllers
             var roleUsers = _context.Roles.Select(x => x).ToArray();
             var employees = _context.Employees.Select(x => x).ToArray();
             var users = _context.Users.Select(x => x).ToArray();
-            return View();
-        }
 
-        public IActionResult Privacy()
-        {
             return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

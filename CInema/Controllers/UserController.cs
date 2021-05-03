@@ -1,9 +1,9 @@
 ﻿using Cinema.Domain.Db;
 using Cinema.Domain.Models.Users;
 using Cinema.Models.User;
-using Microsoft.AspNetCore.Authentication;
+using Cinema.Service;
+using Cinema.Service.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Linq;
@@ -15,12 +15,15 @@ namespace Cinema.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly CinemaDbContext _context;
+        private readonly ISignIn _signInManager;
         public UserController(
             ILogger<HomeController> logger,
-            CinemaDbContext context)
+            CinemaDbContext context,
+            ISignIn SignInManager)
         {
             _logger = logger;
             _context = context;
+            _signInManager = SignInManager;
         }
         /// <summary>
         /// Страница пользовтеля
@@ -41,6 +44,7 @@ namespace Cinema.Controllers
             // TODO: а надо ли вообще ?
             var user = _context.Employees
                 .Select(x => x).OrderByDescending(x => x.SecondName);
+
             return View(user);
         }
 
@@ -52,7 +56,6 @@ namespace Cinema.Controllers
         [AllowAnonymous]
         public IActionResult Login(string returnUrl = null)
         {
-            var g = HttpContext.Session.GetString("_userIsLogged");
             return View();
         }
 
@@ -76,8 +79,7 @@ namespace Cinema.Controllers
                     ModelState.AddModelError(string.Empty, "Проверьте имя пользователя и пароль");
                     return View(model);
                 }
-                HttpContext.Session.SetString("_userIsLogged", user.Login);
-
+                _signInManager.SignIn(user);
                 return View(model);
             }
 
@@ -91,12 +93,13 @@ namespace Cinema.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult RegistrationNewUser(NewUserViewModel model)
         {
-
             if (!ModelState.IsValid)
                 return View(model);
-            // TODO: ЛОГИН ==  МЕЙЛ ?
-            if (_context.Users.Any(x => x.Login.ToLower() == model.EmailAddress.ToLower()))
-                ModelState.AddModelError("Email", "Такой email уже используеся в системе");
+
+            if (_context.Users.Any(x => x.Login.ToLower() == model.Login.ToLower()))
+            {
+                return View(model);
+            }
 
             var profile = new Employee
             {
@@ -104,27 +107,21 @@ namespace Cinema.Controllers
                 SecondName = model.LastName,
             };
 
+            var employee = _context.Employees.Add(profile).Entity;
+            _context.SaveChanges();
+
             var user = new User
             {
-                Login = model.EmailAddress,
+                Login = model.Login,
                 Password = model.Password,
-                RoleId = 1
+                RoleId = 1,
+                EmployeeKod = employee.Kod
             };
 
             _context.Users.Add(user);
-
-            HttpContext.Session.SetString("_userIsLogged", user.Login);
-            
-            /* var result = await _userManager.CreateAsync(user, model.Password);
-              if (!result.Succeeded)
-              {
-                  AddErrors(result);
-                  return View(model);
-              }
-
-              //await _userManager.AddToRoleAsync(user, SecurityConstants.СustomerRole);
-            */
             _context.SaveChanges();
+            user = _context.Users.Where(x => x.Login == model.Login).Select(x => x).ToArray()[0];
+            _signInManager.SignIn(user);
 
             return RedirectToAction("Index", "Home");
         }
@@ -133,41 +130,13 @@ namespace Cinema.Controllers
         /// </summary>
         /// <param name="signInManager">Менеджер авторизации</param>
         [HttpGet]
-        public async Task<IActionResult> Logout()
+        public IActionResult Logout()
         {
+            //TODO сделать метод для разлогина
+            _signInManager.SignIn(null);
 
             return RedirectToAction("Index", "Home");
         }
-
-        /// <summary>
-        /// Возвращение страницы в случае блокировки пользователя
-        /// </summary>
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult Lockout()
-        {
-            return View();
-        }
-
-        /// <summary>
-        /// Подтверждение сброса пароля
-        /// </summary>
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult ResetPasswordConfirmation()
-        {
-            return View();
-        }
-
-        /// <summary>
-        /// Страница запрета доступа
-        /// </summary>
-        [HttpGet]
-        public IActionResult AccessDenied()
-        {
-            return View();
-        }
-
 
         /// <summary>
         /// Регистрация нового пользователя
@@ -177,21 +146,5 @@ namespace Cinema.Controllers
         {
             return View();
         }
-
-        #region Helpers
-
-        private IActionResult RedirectToLocal(string returnUrl)
-        {
-            if (Url.IsLocalUrl(returnUrl))
-            {
-                return Redirect(returnUrl);
-            }
-            else
-            {
-                return RedirectToAction("Index", "Home");
-            }
-        }
-
-        #endregion
     }
 }

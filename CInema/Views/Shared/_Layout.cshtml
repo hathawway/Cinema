@@ -1,8 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@inject ISignIn SignInManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Raleway:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/css/style1.css">
     <title>BStore</title>
@@ -19,11 +21,10 @@
                     <a class="nav__link" href="/Catalog">Каталог</a>
                     <a class="nav__link" href="/Home/Index/#sait">О сайте</a>
                     <a class="nav__link" href="#contacts">Контакты</a>
-                    <a class="nav__link" href="#contacts">hui2</a>
                     @await Html.PartialAsync("_LoginPartial")
-
-                    @if (true)
+                    @if (SignInManager.IsLogged())
                     {
+                        <a class="nav__link" href="#contacts">hui2</a>
                         <a class="nav__link" href="/Account/Cart">
                             <img src="~/images/mainImages/shopping-cart.png" alt="Корзина" style="vertical-align: middle">Корзина
                         </a>
@@ -98,7 +99,7 @@
     @RenderSection("Scripts", required: false)
 
     <script src="http://code.jquery.com/jquery-2.0.2.min.js"></script>
-    
+
 
 </body>
 </html>

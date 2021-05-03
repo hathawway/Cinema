@@ -10,14 +10,11 @@
         <button class="action-close" type="button" onclick="javascript:window.close('','_parent','');"></button>
     </div>
 
-
-
-    <label asp-for="EmailAddress">
+    <label asp-for="Login">
         <div class="input__logo">Email</div>
     </label>
-    <input asp-for="EmailAddress" class="input__login" type="email" title="email" placeholder="Email">
-
-    <div class="span__input__login"><span asp-validation-for="EmailAddress"></span></div>
+    <input asp-for="Login" class="input__login" type="email" title="Login" placeholder="Login">
+    <div class="span__input__login"><span asp-validation-for="Login"></span></div>
 
     <label asp-for="FirstName">
         <div class="input__logo">Имя</div>
@@ -50,6 +47,7 @@
     <input asp-for="ConfirmPassword" class="input__login" type="password" title="password" placeholder="Пароль">
 
     <div class="span__input__login"><span asp-validation-for="ConfirmPassword"></span></div>
+
 
     <button class="btn__input-reg" type="submit">Зарегистрироваться</button>
 

@@ -1,5 +1,6 @@
 ﻿using Cinema.Domain.Db;
 using Cinema.Models;
+using Cinema.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,13 @@ namespace Cinema.Controllers
     public class CinemaController : Controller
     {
         private readonly CinemaDbContext _context;
-        public CinemaController(CinemaDbContext context)
+        private readonly ISignIn _signInManager;
+        public CinemaController(
+            CinemaDbContext context,
+            ISignIn signInManager)
         {
             _context = context;
+            _signInManager = signInManager;
         }
 
         [HttpGet]

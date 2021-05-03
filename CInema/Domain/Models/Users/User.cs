@@ -15,8 +15,5 @@ namespace Cinema.Domain.Models.Users
         public long RoleId{ get; set; }
         [Column("KOD_EMPLOYEE")]
         public long EmployeeKod { get; set; }
-
-        [ForeignKey("EmployeeKod")]
-        public Employee Employee { get; set; }
     }
 }
