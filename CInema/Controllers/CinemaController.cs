@@ -24,7 +24,6 @@ namespace Cinema.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            
             var cinemas = _context.Films.Select(x => new FilmViewModel
             {
                 Kod = x.Kod,
@@ -36,7 +35,7 @@ namespace Cinema.Controllers
                 Studio = _context.FilmStudios.Where(s => s.Kod == x.StudioKod).Select(c => c.Name).ToArray()[0],
                 TimeDuration = x.TimeDuration
             });
-            ViewData["Cinemas"] = cinemas.ToArray();
+            ViewData["TableData"] = cinemas.ToArray();
             ViewData["Headers"] = new string[]{ 
                 "Название фильма",
                 "Киностудия",
@@ -52,15 +51,17 @@ namespace Cinema.Controllers
         [HttpGet]
         public IActionResult BoxOffice()
         {
-            var boxOffices = _context.BoxOffices.Select(x => new BoxOffice
+            var rawBoxes = _context.BoxOffices.Select(x => x).ToArray();
+
+            var boxOffices = rawBoxes.Select(x => new BoxOfficeViewModel
             {
                 Film = _context.Films.Where(g => g.Kod == x.KodFilm).Select(g => g.Name).ToArray()[0],
                 TotalSum = x.TotalSum,
                 Date = x.DateBoxOffice,
-            });
+            }).ToArray();
             ViewData["TableName"] = "Бокс Оффисы";
             ViewData["Headers"] = new string[] { "Фильм", "Сумма", "Дата" };
-            ViewData["Table"] = boxOffices.ToArray();
+            ViewData["TableData"] = boxOffices;
             return View();
         }
     }

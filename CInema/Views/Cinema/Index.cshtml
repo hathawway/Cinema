@@ -38,9 +38,8 @@
                                 <td class="col" style="background:#eee;">@item</td>
                             }
                         </tr>
-                        @if (ViewData["Cinemas"] != null)
-                        {
-                            @foreach (var item in (ViewData["Cinemas"]) as FilmViewModel[])
+                        
+                            @foreach (var item in (ViewData["TableData"]) as FilmViewModel[])
                             {
                                 <tr class="row">
                                     <td class="col" contenteditable="true">@item.Name</td>
@@ -53,7 +52,7 @@
                                     <td class="col" contenteditable="true">@item.Rating</td>
                                 </tr>
                             }
-                        }
+                        
 
                     </table>
                 </form>

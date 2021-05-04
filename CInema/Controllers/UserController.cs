@@ -11,15 +11,12 @@ namespace Cinema.Controllers
 {
     public class UserController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly CinemaDbContext _context;
         private readonly ISignIn _signInManager;
         public UserController(
-            ILogger<HomeController> logger,
             CinemaDbContext context,
             ISignIn SignInManager)
         {
-            _logger = logger;
             _context = context;
             _signInManager = SignInManager;
         }
