@@ -22,8 +22,9 @@ namespace Cinema.Controllers
         public IActionResult Countries()
         {
             var countries = _context.Countries.Select(x => x).ToArray();
+            
             ViewData["TableName"] = "Страны";
-            ViewData["Headers"] = new string[] { "Идентификатор", "Название"};
+            ViewData["Headers"] = new string[] {"Название"};
             ViewData["TableData"] = countries;
             return View();
         }
@@ -40,7 +41,7 @@ namespace Cinema.Controllers
         {
             var genres = _context.Genres.Select(x => x).ToArray();
             ViewData["TableName"] = "Жанры";
-            ViewData["Headers"] = new string[] { "Идентификатор", "Название" };
+            ViewData["Headers"] = new string[] {"Название" };
             ViewData["TableData"] = genres;
             return View();
         }
