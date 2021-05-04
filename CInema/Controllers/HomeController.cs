@@ -1,10 +1,7 @@
 ﻿using Cinema.Domain.Db;
-using Cinema.Domain.Models;
 using Cinema.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Diagnostics;
 using System.Linq;
 
 namespace Cinema.Controllers

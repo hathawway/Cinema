@@ -1,72 +1,65 @@
-﻿@{ ViewData["Title"] = "BStore"; }
+﻿@{ ViewData["Title"] = "Реестр кинофильмов"; }
 
 
-<!---
-  <head>
-    <meta charset="utf-8">
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Raleway:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="~/css/style1.css">
-    <title>BStore</title>
-</head>
+    <div class="container">
+        <div class="main_container">
 
--->
+            <form class="column_add" action="/" method="post">
+                <div class="text1">Добавление данных</div>
 
+                <input type="text" name="secondname" required placeholder="Фамилия" class="input">
 
+                <input type="text" name="firstname" required placeholder="Имя" class="input">
 
-<div class="intro">
+                <input type="text" name="thirdname" placeholder="Отчество" class="input">
 
-    <div class="inner__col">
-        <div class="container__col  container__col--first">
-            <img src="~/images/3.png" alt="">
-        </div>
-        <div class="container__col  container__col--second">
-            <form class="search__books" actions="/" method="get" asp-controller="Catalog" asp-action="" method="get">
-                <input class="input" type="search" title="name" name="query" placeholder="Поиск...">
-                <button class="btn__input" type="submit"><img src="~/images/mainImages/zoom-out.png" alt="Лупа" style="vertical-align: middle">Поиск</button>
+                <input type="datetime" name="datetime" required placeholder="Дата Рождения" class="input">
+
+                <button class="btn" type="submit">Окей</button>
+
             </form>
-        </div>
-    </div>
-</div>
 
+            <div class="column_see">
+                <div class="text1">Табличка</div>
+                <div class="container_btn">
+                    <button class="btn_change">Редактировать</button>
+                    <button class="btn_change">Удалить</button>
+                </div>
+                <form class="container_table" action="/" method="post">
+                    <table class="table">
+                        <tr class="row">
+                            <td class="col"></td>
+                            <td class="col">Название</td>
+                            <td class="col">Данные</td>
+                            <td class="col">Название</td>
+                            <td class="col">Данные</td>
+                            <td class="col">Данные</td>
+                            <td class="col">Данные</td>
+                            <td class="col">Данные</td>
+                            <td class="col">Данные</td>
+                        </tr>
+                        @if (ViewData["Cinemas"] != null)
+                        {
+                            @foreach (var item in (ViewData["Cinemas"]) as FilmViewModel[])
+                            {
+                                <tr class="row">
+                                    <td class="col"><input class="checkbox" type="checkbox" name="/id" value="/id"></td>
+                                    <td class="col" contenteditable="true">@item.Kod</td>
+                                    <td class="col">@item.Name</td>
+                                    <td class="col">@item.Studio</td>
+                                    <td class="col">@item.StartDate</td>
 
-    <div class="main__page">
-        <div class="main__logo-page">BStore</div>
-        <div class="text-page">Ищите все нужные ресурсы с BStore</div>
-        <button class="btn__main" ><a style="color:#fff; text-decoration:none" href="/Catalog">Начать</a></button>
-    </div>
+                                    <td class="col">@item.Country</td>
+                                    <td class="col">@item.TimeDuration</td>
+                                    <td class="col">@item.Genre</td>
+                                    <td class="col">@item.Rating</td>
+                                </tr>
+                            }
+                        }
 
-
-    <div class="mini__section"></div>
-
-
-    <div class="section">
-        <div class="container">
-            <div class="main__logo" id="sait">О сайте</div>
-            <div class="text">
-                Уран и Сатурн, управляющие знаком Водолея, делают их натуру двойственной и противоречивой. 
-                Этот знак таит в себе много противоположных черт и качеств, удачно сочетая их в нужной ситуации. 
-                
-                Проекты, рождающиеся под знаком Водолея, являются одновременно романтиками и реалистами. 
-                Они способны мечтать и планировать, не теряя почвы под ногами. 
-                Водолеи – это всегда новаторы, индивидуалисты, они никогда не следуют за большинством, выбирая свой, исключительный путь.
-                В идеях намного опережают любого, обладают блестящим умом, поэтому способны построить себе карьеру там, где требуется нестандартное мышление и дальновидные, инновационные решения.
-
+                    </table>
+                </form>
             </div>
 
-            <div class="main__section">
-                <div class="main__col">
-                    <div class="footer__logo">Something</div>
-                    <img src="~/images/sun.jpg" alt="">
-                </div>
-
-                <div class="main__col">
-                    <div class="footer__logo">Something</div>
-                    <img src="~/images/sun.jpg" alt="">
-                </div>
-            </div>
-
-
         </div>
-
     </div>
-

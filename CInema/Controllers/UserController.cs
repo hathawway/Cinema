@@ -1,13 +1,11 @@
 ﻿using Cinema.Domain.Db;
 using Cinema.Domain.Models.Users;
 using Cinema.Models.User;
-using Cinema.Service;
 using Cinema.Service.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Cinema.Controllers
 {
@@ -80,10 +78,9 @@ namespace Cinema.Controllers
                     return View(model);
                 }
                 _signInManager.SignIn(user);
-                return View(model);
             }
 
-            return View(model);
+            return RedirectToAction("Index", "Cinema");
         }
         /// <summary>
         /// Регистрация нового пользователя

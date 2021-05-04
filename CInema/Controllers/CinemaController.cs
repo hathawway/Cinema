@@ -37,6 +37,30 @@ namespace Cinema.Controllers
                 TimeDuration = x.TimeDuration
             });
             ViewData["Cinemas"] = cinemas.ToArray();
+            ViewData["Headers"] = new string[]{ 
+                "Название фильма",
+                "Киностудия",
+                "Дата премьеры",
+                "Страна",
+                "Продолжительность",
+                "Жанр",
+                "Рейтинг"};
+            ViewData["TableName"] = "Фильмы";
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult BoxOffice()
+        {
+            var boxOffices = _context.BoxOffices.Select(x => new BoxOffice
+            {
+                Film = _context.Films.Where(g => g.Kod == x.KodFilm).Select(g => g.Name).ToArray()[0],
+                TotalSum = x.TotalSum,
+                Date = x.DateBoxOffice,
+            });
+            ViewData["TableName"] = "Бокс Оффисы";
+            ViewData["Headers"] = new string[] { "Фильм", "Сумма", "Дата" };
+            ViewData["Table"] = boxOffices.ToArray();
             return View();
         }
     }

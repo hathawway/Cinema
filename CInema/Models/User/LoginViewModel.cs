@@ -22,11 +22,5 @@ namespace Cinema.Models.User
         [DataType(DataType.Password)]
         [Display(Name = "Пароль")]
         public string Password { get; set; }
-
-        /// <summary>
-        /// Запомнить ли учетную запись в браузере
-        /// </summary>
-        [Display(Name = "Запомнить?")]
-        public bool RememberMe { get; set; }
     }
 }

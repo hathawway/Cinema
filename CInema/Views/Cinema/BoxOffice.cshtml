@@ -1,0 +1,63 @@
+﻿@{ ViewData["Title"] = "Реестр кинофильмов"; }
+
+
+<div class="container">
+    <div class="main_container">
+
+        <form class="column_add" action="/" method="post">
+            <div class="text1">Добавление данных</div>
+            <input type="text" name="Name" required placeholder="Название фильма" class="input">
+
+            <input type="text" name="Studio" placeholder="Киностудия" class="input">
+
+            <input type="date" name="StartDate" placeholder="Дата начала" class="input">
+
+            <input type="tel" name="Country" placeholder="Страна" class="input">
+
+            <input type="number" min="1" name="TimeDuration" placeholder="Продолжительность" class="input">
+
+            <input type="text" name="Genre" placeholder="Жанр" class="input">
+
+            <input type="text" name="Rating" placeholder="Рейтинг" class="input">
+
+            <button class="btn" type="submit">Окей</button>
+
+        </form>
+
+        <div class="column_see">
+            <div class="text1">@ViewData["TableName"]</div>
+            <div class="container_btn">
+                <button class="btn_change">Редактировать</button>
+                <button class="btn_change">Удалить</button>
+            </div>
+            <form class="container_table" action="/" method="post">
+                <table class="table">
+                    <tr class="row">
+                        @foreach (var item in (ViewData["Headers"]) as string[])
+                        {
+                            <td class="col" style="background:#eee;">@item</td>
+                        }
+                    </tr>
+                    @if (ViewData["Table"] != null)
+                    {
+                        @foreach (var item in (ViewData["Table"]) as FilmViewModel[])
+                        {
+                            <tr class="row">
+                                <td class="col" contenteditable="true">@item.Name</td>
+                                <td class="col" contenteditable="true">@item.Studio</td>
+                                <td class="col" contenteditable="true">@item.StartDate</td>
+
+                                <td class="col" contenteditable="true">@item.Country</td>
+                                <td class="col" contenteditable="true">@item.TimeDuration</td>
+                                <td class="col" contenteditable="true">@item.Genre</td>
+                                <td class="col" contenteditable="true">@item.Rating</td>
+                            </tr>
+                        }
+                    }
+
+                </table>
+            </form>
+        </div>
+
+    </div>
+</div>

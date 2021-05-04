@@ -2,32 +2,24 @@
 
 @{ ViewData["Title"] = "Авторизация"; }
 
-<form class="containerLogin" asp-controller="User" asp-action="Login"  method="post">
-    <div class="logo">
-        <div class="container__logo">Авторизация</div>
-        <button class="action-close" type="button" ></button>
+
+    <div class="intro">
+        <div class="container">
+
+            <form class="account_container" asp-controller="User" asp-action="Login" method="post">
+                <div class="text1">Авторизация</div>
+                <input type="email" name="login" required placeholder="Имя пользователя" asp-for="Login" class="input">
+                <!--<span asp-validation-for="Login"></span>-->
+                <input type="password" name="password" required placeholder="Пароль" asp-for="Password" class="input">
+                <!--<span asp-validation-for="Login"></span>-->
+                <button class="btn" type="submit">
+                    Войти
+                </button>
+
+                <a class="nav" href="/User/ResetPasswordConfirmation">Забыли пароль?</a>
+            </form>
+        </div>
     </div>
-    <label asp-for="Login"><div class="input__logo">Логин</div></label>
-
-    <input class="input__login" type="email" title="login" placeholder="Email" asp-for="Login">
-    <div class="span__input__login"><span asp-validation-for="Login"></span></div>
-
-    <label asp-for="Password"><div class="input__logo">Пароль</div></label>
-    <input asp-for="Password" class="input__login" type="password" title="name" placeholder="Пароль">
-    <div class="span__input__login"><span asp-validation-for="Password"></span></div>
-
-    <div class="input__logo"><input class="checkbox" type="checkbox" checked="checked" asp-for="RememberMe">@Html.DisplayNameFor(m => m.RememberMe)</div>
-
-    <button class="btn__input__login" type="submit">Войти</button>
-
-    <div class="nav__login">
-
-        <a class="nav__link__login" href="/User/ResetPasswordConfirmation">Забыли пароль?</a>
-        <a class="nav__link__login" href="/User/RegistrationNewUser">Зарегистрироваться</a>
-
-    </div>
-
-</form>
 
 
 
