@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Cinema.Models
 {
-    public class FilmSemp
+    public class FilmSempViewModel
     {
         public string FilmName { get; set; }
         public string EmployeeName { get; set; }

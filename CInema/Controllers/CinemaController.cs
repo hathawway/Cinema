@@ -64,5 +64,24 @@ namespace Cinema.Controllers
             ViewData["TableData"] = boxOffices;
             return View();
         }
+
+
+        [HttpGet]
+        public IActionResult FilmSemp()
+        {
+            var filmSemps = _context.FilmSemps.Select(x => x).ToArray();
+            var employees = _context.Employees.Select(x => x).ToArray();
+            //var employees = _context.Employees.Select(x => x).ToArray();
+
+            var boxOffices = filmSemps.Select(x => new FilmSempViewModel
+            {
+                EmployeeName = employees.First(h => h.Kod == x.EmployeeKod).FIO()
+                
+            }).ToArray();
+            ViewData["TableName"] = "Бокс Оффисы";
+            ViewData["Headers"] = new string[] { "Фильм", "Сумма", "Дата" };
+            ViewData["TableData"] = boxOffices;
+            return View();
+        }
     }
 }

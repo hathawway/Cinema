@@ -20,29 +20,7 @@ namespace Cinema.Controllers
             _context = context;
             _signInManager = SignInManager;
         }
-        /// <summary>
-        /// Страница пользовтеля
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public IActionResult Index()
-        {
-            return View();
-        }
-        /// <summary>
-        /// Личный кабинет
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public IActionResult Account()
-        {
-            // TODO: а надо ли вообще ?
-            var user = _context.Employees
-                .Select(x => x).OrderByDescending(x => x.SecondName);
-
-            return View(user);
-        }
-
+        
         /// <summary>
         /// Форма входа в систему
         /// </summary>
@@ -138,6 +116,27 @@ namespace Cinema.Controllers
         [HttpGet]
         public IActionResult RegistrationNewUser()
         {
+            return View();
+        }
+
+        public IActionResult AllUsers()
+        {
+            var employees = _context.Users.Select(x => new UserViewModel
+            {
+                Login = x.Login,
+                Password = x.Password,
+                Employee = _context.Employees.Where(e => e.Kod == x.EmployeeKod).
+                    Select(e => new EmployeeViewModel 
+                    { 
+                        FirstName = e.FirstName,
+                        SecondName = e.SecondName,
+                        ThirdName = e.ThirdName,
+                        BirthDay = e.BirthDay
+                    }).ToArray()[0]
+            });
+            ViewData["TableName"] = "Сотрудники";
+            ViewData["Headers"] = new string[] { "Логин", "Пароль", "Имя", "Фамилия", "Отчество", "День рождения" };
+            ViewData["TableData"] = employees.ToArray();
             return View();
         }
     }

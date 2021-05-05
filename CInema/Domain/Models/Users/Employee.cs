@@ -18,5 +18,9 @@ namespace Cinema.Domain.Models.Users
         public string ThirdName { get; set; }
         [Column("DATE_BIRTH")] 
         public DateTime BirthDay { get; set; }
+        public string FIO ()
+        {
+            return SecondName + " " + FirstName + " " + ThirdName;
+        }
     }
 }

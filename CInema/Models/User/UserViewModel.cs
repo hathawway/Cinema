@@ -9,5 +9,13 @@ namespace Cinema.Models.User
     {
         public string Login { get; set; }
         public string Password { get; set; }
+        public EmployeeViewModel Employee { get; set; }       
+    }
+    public class EmployeeViewModel
+    {
+        public string FirstName { get; set; }
+        public string SecondName { get; set; }
+        public string ThirdName { get; set; }
+        public DateTime BirthDay { get; set; }
     }
 }

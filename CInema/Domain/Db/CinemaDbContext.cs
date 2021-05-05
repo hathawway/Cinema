@@ -25,6 +25,7 @@ namespace Cinema.Domain.Db
         public DbSet<Role> Roles { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<TypeEmployee> EmployeeTypes { get; set; }
 
     }
 }
