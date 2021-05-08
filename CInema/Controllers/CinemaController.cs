@@ -2,23 +2,18 @@
 using Cinema.Models;
 using Cinema.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Cinema.Controllers
 {
     public class CinemaController : Controller
     {
         private readonly CinemaDbContext _context;
-        private readonly ISignIn _signInManager;
         public CinemaController(
             CinemaDbContext context,
             ISignIn signInManager)
         {
             _context = context;
-            _signInManager = signInManager;
         }
 
         [HttpGet]
@@ -27,12 +22,12 @@ namespace Cinema.Controllers
             var cinemas = _context.Films.Select(x => new FilmViewModel
             {
                 Kod = x.Kod,
-                Country = _context.Countries.Where(c => c.Kod == x.CountryKod).Select(c => c.Name).ToArray()[0],
-                Genre = _context.Genres.Where(g => g.Kod == x.GenreKod).Select(c => c.Name).ToArray()[0],
+                Country = _context.Countries.First(c => c.Kod == x.CountryKod).Name,
+                Genre = _context.Genres.First(g => g.Kod == x.GenreKod).Name,
                 Name = x.Name,
-                Rating = _context.Ratings.Where(r => r.Kod == x.RatingKod).Select(c => c.Name).ToArray()[0],
+                Rating = _context.Ratings.First(r => r.Kod == x.RatingKod).Name,
                 StartDate = x.StartDate,
-                Studio = _context.FilmStudios.Where(s => s.Kod == x.StudioKod).Select(c => c.Name).ToArray()[0],
+                Studio = _context.FilmStudios.First(s => s.Kod == x.StudioKod).Name,
                 TimeDuration = x.TimeDuration
             });
             ViewData["TableData"] = cinemas.ToArray();
@@ -51,11 +46,9 @@ namespace Cinema.Controllers
         [HttpGet]
         public IActionResult BoxOffice()
         {
-            var rawBoxes = _context.BoxOffices.Select(x => x).ToArray();
-
-            var boxOffices = rawBoxes.Select(x => new BoxOfficeViewModel
+            var boxOffices = _context.BoxOffices.Select(x => new BoxOfficeViewModel
             {
-                Film = _context.Films.Where(g => g.Kod == x.KodFilm).Select(g => g.Name).ToArray()[0],
+                Film = _context.Films.First(g => g.Kod == x.KodFilm).Name,
                 TotalSum = x.TotalSum,
                 Date = x.DateBoxOffice,
             }).ToArray();
@@ -65,23 +58,40 @@ namespace Cinema.Controllers
             return View();
         }
 
-
         [HttpGet]
-        public IActionResult FilmSemp()
+        public IActionResult FilmsEmp()
         {
-            var filmSemps = _context.FilmSemps.Select(x => x).ToArray();
-            var employees = _context.Employees.Select(x => x).ToArray();
-            //var employees = _context.Employees.Select(x => x).ToArray();
-
-            var boxOffices = filmSemps.Select(x => new FilmSempViewModel
+            var filmsEmpsViewModel = _context.FilmsEmps.Select(x => new FilmsEmpViewModel
             {
-                EmployeeName = employees.First(h => h.Kod == x.EmployeeKod).FIO()
+                EmployeeName = _context.Employees.First(h => h.Kod == x.EmployeeKod).FIO(),
+                EmployeeType = _context.EmployeeTypes.First(et => et.Kod == x.TypeEmployeeKod).Name,
+                FilmName = _context.Films.First(f => f.Kod == x.FilmKod).Name
                 
             }).ToArray();
-            ViewData["TableName"] = "Бокс Оффисы";
-            ViewData["Headers"] = new string[] { "Фильм", "Сумма", "Дата" };
-            ViewData["TableData"] = boxOffices;
+            ViewData["TableName"] = "Семпы фильма";
+            ViewData["Headers"] = new string[] { "Фильм", "Сотрудник", "Должность" };
+            ViewData["TableData"] = filmsEmpsViewModel;
             return View();
         }
+
+        [HttpGet]
+        public IActionResult SessionFilms()
+        {
+
+            var filmSession = _context.SessionFilms.Select(x => new SessionFilmsViewModel
+            {
+                FilmName = _context.Films.First(f => f.Kod == x.FilmKod).Name,
+                FilmStart = x.FilmStartDate,
+                FreeSeatsAmount = x.FreePlaces,
+                SeatsAmount = x.Places,
+                TicketPrice = x.TicketPrice,
+                ZalNumber = x.Hall
+            }).ToArray();
+            ViewData["TableName"] = "Расписание";
+            ViewData["Headers"] = new string[] { "Фильм", "Начало", "Номер зала", "Количество мест", "Цена за билет", "Количество свободных мест" };
+            ViewData["TableData"] = filmSession;
+            return View();
+        }
+
     }
 }

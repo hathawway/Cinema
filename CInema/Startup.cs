@@ -35,10 +35,8 @@ namespace Cinema
             
             string cadenaCone = "User Id=kino;Password=" + ((char)34).ToString() + "kino" + ((char)34).ToString() + ";Data Source=localhost:1521/orcl.docker.internal;";
             
-            services.AddDbContext<CinemaDbContext>(options => 
-                {
-                    options.UseOracle(login);
-                });
+            services.AddDbContext<CinemaDbContext>(optionsAction: builder =>
+                    builder.UseOracle(login, options => options.UseOracleSQLCompatibility("11")));
 
 
             services.AddDistributedMemoryCache();

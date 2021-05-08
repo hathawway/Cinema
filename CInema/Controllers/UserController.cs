@@ -46,7 +46,7 @@ namespace Cinema.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = _context.Users.Where(x => x.Login == model.Login).Select(x => x).ToArray()[0];
+                var user = _context.Users.FirstOrDefault(x => x.Login == model.Login);
                 if (user == null)
                 {
                     ModelState.AddModelError(string.Empty, "Проверьте имя пользователя и пароль");
@@ -73,24 +73,24 @@ namespace Cinema.Controllers
                 return View(model);
             }
 
-            var profile = new Employee
-            {
-                FirstName = model.FirstName,
-                SecondName = model.LastName,
-            };
-
-            var employee = _context.Employees.Add(profile).Entity;
-            _context.SaveChanges();
-
             var user = new User
             {
                 Login = model.Login,
                 Password = model.Password,
                 RoleId = 1,
-                EmployeeKod = employee.Kod
             };
 
-            _context.Users.Add(user);
+            var userInserted =_context.Users.Add(user).Entity;
+            _context.SaveChanges();
+
+            var profile = new UserInfo
+            {
+                FirstName = model.FirstName,
+                SecondName = model.LastName,
+                KodUser = userInserted.Kod,
+            };
+
+            _context.UserInfo.Add(profile);
             _context.SaveChanges();
             user = _context.Users.Where(x => x.Login == model.Login).Select(x => x).ToArray()[0];
             _signInManager.SignIn(user);
@@ -121,19 +121,13 @@ namespace Cinema.Controllers
 
         public IActionResult AllUsers()
         {
-            var employees = _context.Users.Select(x => new UserViewModel
-            {
-                Login = x.Login,
-                Password = x.Password,
-                Employee = _context.Employees.Where(e => e.Kod == x.EmployeeKod).
-                    Select(e => new EmployeeViewModel 
-                    { 
+            var employees = _context.UserInfo.Select(e => new UserInfoViewModel
+                    {
                         FirstName = e.FirstName,
                         SecondName = e.SecondName,
                         ThirdName = e.ThirdName,
-                        BirthDay = e.BirthDay
-                    }).ToArray()[0]
-            });
+                        BirthDay = e.Birthday
+                    });
             ViewData["TableName"] = "Сотрудники";
             ViewData["Headers"] = new string[] { "Логин", "Пароль", "Имя", "Фамилия", "Отчество", "День рождения" };
             ViewData["TableData"] = employees.ToArray();

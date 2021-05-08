@@ -1,10 +1,8 @@
 ﻿using Cinema.Domain.Db;
 using Cinema.Domain.Models.Common;
+using Cinema.Models.Common;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Cinema.Controllers
 {
@@ -21,7 +19,11 @@ namespace Cinema.Controllers
         [HttpGet]
         public IActionResult Countries()
         {
-            var countries = _context.Countries.Select(x => x).ToArray();
+            var countries = _context.Countries.Select(x => new CountryViewModel 
+            {
+                Id = x.Kod,
+                Name = x.Name
+            }).ToArray();
             
             ViewData["TableName"] = "Страны";
             ViewData["Headers"] = new string[] {"Название"};
@@ -37,9 +39,38 @@ namespace Cinema.Controllers
         }
 
         [HttpGet]
+        public IActionResult EmployeeTypes()
+        {
+            var employeeTypes = _context.EmployeeTypes.Select(x => new TypeEmployeeViewModel 
+            {
+                Id = x.Kod,
+                Name = x.Name
+            }).ToArray();
+            ViewData["TableName"] = "Должности";
+            ViewData["Headers"] = new string[] { "Название" };
+            ViewData["TableData"] = employeeTypes;
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AddEmployeeTypes(CountryViewModel country)
+        {
+            var countries = _context.Countries.Add(new Country 
+            { 
+                Kod = country.Id,
+                Name = country.Name
+            });
+            _context.SaveChanges();
+            return View();
+        }
+
+        [HttpGet]
         public IActionResult Genre()
         {
-            var genres = _context.Genres.Select(x => x).ToArray();
+            var genres = _context.Genres.Select(x => new GenreViewModel 
+            {
+                Id = x.Kod,
+                Name = x.Name
+            }).ToArray();
             ViewData["TableName"] = "Жанры";
             ViewData["Headers"] = new string[] {"Название" };
             ViewData["TableData"] = genres;
@@ -57,7 +88,11 @@ namespace Cinema.Controllers
         [HttpGet]
         public IActionResult Rating()
         {
-            var ratings = _context.Ratings.Select(x => x).ToArray();
+            var ratings = _context.Ratings.Select(x => new RatingViewModel
+            {
+                Id = x.Kod,
+                Name = x.Name
+            }).ToArray();
             ViewData["TableName"] = "Рейтинг";
             ViewData["Headers"] = new string[] { "Название" };
             ViewData["TableData"] = ratings;
@@ -70,31 +105,15 @@ namespace Cinema.Controllers
             _context.SaveChanges();
             return View();
         }
-        [HttpGet]
-        public IActionResult Roles()
-        {
-            var roles = _context.Roles.Select(x => x).ToArray();
-            ViewData["TableName"] = "Роли";
-            ViewData["Headers"] = new string[] { "Название" };
-            ViewData["TableData"] = roles;
-            return View();
-        }
-
-
-        [HttpGet]
-        public IActionResult EmployeeTypes()
-        {
-            var employeeTypes = _context.EmployeeTypes.Select(x => x).ToArray();
-            ViewData["TableName"] = "Должности";
-            ViewData["Headers"] = new string[] { "Название" };
-            ViewData["TableData"] = employeeTypes;
-            return View();
-        }
         
         [HttpGet]
         public IActionResult FilmStudio()
         {
-            var filmStudios = _context.FilmStudios.Select(x => x).ToArray();
+            var filmStudios = _context.FilmStudios.Select(x => new FilmStudioViewModel 
+            {
+                Id = x.Kod,
+                Name = x.Name
+            }).ToArray();
             ViewData["TableName"] = "Студии";
             ViewData["Headers"] = new string[] { "Название" };
             ViewData["TableData"] = filmStudios;
