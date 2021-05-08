@@ -16,7 +16,7 @@ namespace Cinema.Domain.Db
         public DbSet<BoxOffice> BoxOffices { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<Film> Films { get; set; }
-        public DbSet<FilmSemp> FilmSemps { get; set; }
+        public DbSet<FilmsEmp> FilmSemps { get; set; }
         public DbSet<FilmStudio> FilmStudios { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Rating> Ratings { get; set; }

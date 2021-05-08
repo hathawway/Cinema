@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Cinema.Models
 {
-    public class SessionFilms
+    public class SessionFilmsViewModel
     {
         public string FilmName { get; set; }
         public DateTime FilmStart{ get; set; }

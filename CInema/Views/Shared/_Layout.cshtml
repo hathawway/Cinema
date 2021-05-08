@@ -15,8 +15,10 @@
                 <div class="header_logo">Реестр кинофильмов</div>
 
                 <nav class="nav__link">
-                    <a class="nav_link" href="#">Таблицы</a>
-                    <a class="nav_link" href="#">Справочники</a>                    
+                    <!--<a class="nav_link" href="#">Таблицы</a>-->
+                    @await Html.PartialAsync("_LoginTable")
+                    <!--<a class="nav_link" href="#">Справочники</a>-->
+                    @await Html.PartialAsync("_LoginDictionary")
                     <a class="nav_link" href="#">Документ</a>
                     <a class="nav_link" href="#">Выход</a>
                 </nav>

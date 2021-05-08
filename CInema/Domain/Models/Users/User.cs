@@ -13,7 +13,7 @@ namespace Cinema.Domain.Models.Users
         public string Password { get; set; }
         [Column("KOD_ROLEUSERS")]
         public long RoleId{ get; set; }
-        [Column("KOD_EMPLOYEE")]
-        public long EmployeeKod { get; set; }
+        /*[Column("KOD_EMPLOYEE")]
+        public long EmployeeKod { get; set; }*/
     }
 }

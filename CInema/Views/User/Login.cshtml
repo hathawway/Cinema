@@ -7,16 +7,21 @@
         <div class="container">
 
             <form class="account_container" asp-controller="User" asp-action="Login" method="post">
+
                 <div class="text1">Авторизация</div>
+
                 <input type="email" name="login" required placeholder="Имя пользователя" asp-for="Login" class="input">
-                <!--<span asp-validation-for="Login"></span>-->
+
+                <div class="span"><span asp-validation-for="Login"></span></div>
+
                 <input type="password" name="password" required placeholder="Пароль" asp-for="Password" class="input">
-                <!--<span asp-validation-for="Login"></span>-->
-                <button class="btn" type="submit">
-                    Войти
-                </button>
+
+                <div class="span"><span asp-validation-for="Password"></span></div>
+
+                <button class="btn" type="submit">Войти</button>
 
                 <a class="nav" href="/User/ResetPasswordConfirmation">Забыли пароль?</a>
+
             </form>
         </div>
     </div>

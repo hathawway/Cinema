@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Cinema.Models.User
 {
-    public class Roles
+    public class RolesViewModel
     {
         public long Kod { get; set; }
         public string Name { get; set; }

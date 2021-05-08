@@ -5,7 +5,7 @@ namespace Cinema.Domain.Models.Film
 {
     [Table("FILMSEMP")]
     [Keyless]
-    public class FilmSemp
+    public class FilmsEmp
     {
         [Column("KOD_FILM")]
         public long FilmKod { get; set; }

@@ -1,0 +1,63 @@
+﻿@{ ViewData["Title"] = "Реестр кинофильмов"; }
+@model SessionFilmsViewModel
+
+
+<div class="container">
+    <div class="main_container">
+
+        <form class="column_add" action="/" method="post">
+            <div class="text1">Добавление данных</div>
+
+            <select id="FilmName" name="FilmName">
+                <option value="1">Фильм</option>
+            </select>
+
+            <input type="datetime" name="FilmStart" required placeholder="Дата начала" class="input">
+
+            <input type="number" min="1" name="ZalNumber" required placeholder="Зал" class="input">
+
+            <input type="number" min="1" name="SeatsAmount" required placeholder="Кол-во мест в зале" class="input">
+
+            <input type="number" step="0.01" min="0" name="TicketPrice" required placeholder="Цена билета 0,00" class="input">
+
+            <input type="number" min="0" name="FreeSeatsAmount" required placeholder="Кол-во свободных мест в зале" class="input">
+
+
+            <button class="btn" type="submit">Окей</button>
+
+        </form>
+
+        <div class="column_see">
+            <div class="text1">@ViewData["TableName"]</div>
+            <div class="container_btn">
+                <button class="btn_change">Редактировать</button>
+                <button class="btn_change">Удалить</button>
+            </div>
+            <form class="container_table" action="/" method="post">
+                <table class="table">
+                    <tr class="row">
+                        @foreach (var item in (ViewData["Headers"]) as string[])
+                        {
+                            <td class="col" style="background:#eee;">@item</td>
+                        }
+                    </tr>
+
+                    @foreach (var item in (ViewData["TableData"]) as SessionFilmsViewModel[])
+                    {
+                        <tr class="row">
+                            <td class="col" contenteditable="true">@item.FilmName</td>
+                            <td class="col" contenteditable="true">@item.FilmStart</td>
+                            <td class="col" contenteditable="true">@item.ZalNumber</td>
+                            <td class="col" contenteditable="true">@item.SeatsAmount</td>
+                            <td class="col" contenteditable="true">@item.TicketPrice</td>
+                            <td class="col" contenteditable="true">@item.FreeSeatsAmount</td>
+                        </tr>
+                    }
+
+
+                </table>
+            </form>
+        </div>
+
+    </div>
+</div>

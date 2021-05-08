@@ -1,5 +1,5 @@
 ﻿@{ ViewData["Title"] = "Реестр кинофильмов"; }
-@model Genre
+@model GenreViewModel
 
 <div class="container">
     <div class="main_container">
@@ -29,7 +29,7 @@
                     </tr>
                     @if (ViewData["TableData"] != null)
                     {
-                        @foreach (var item in (ViewData["TableData"]) as Genre[])
+                        @foreach (var item in (ViewData["TableData"]) as GenreViewModel[])
                         {
                             <tr class="row">
                                 <td class="col" contenteditable="true">@item.Name</td>

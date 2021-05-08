@@ -9,7 +9,7 @@ namespace Cinema.Domain.Models
     public class BoxOffice
     {
         [Column("KOD_FILM")]
-        public int KodFilm{ get; set; }
+        public long KodFilm{ get; set; }
         [Column("TOTAL_SUM")]
         public long TotalSum { get; set; }
         [Column("DATE_BOXOFFICE")]

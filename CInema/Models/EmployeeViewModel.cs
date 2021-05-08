@@ -8,7 +8,7 @@ namespace Cinema.Models
     /*
      * Съёмочная группа
      */
-    public class Employee
+    public class EmployeeViewModel
     {
         public long Kod { get; set; }
         /*

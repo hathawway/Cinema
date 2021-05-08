@@ -1,19 +1,26 @@
 ﻿@{ ViewData["Title"] = "Реестр кинофильмов"; }
-@model BoxOfficeViewModel
+@model FilmsEmpViewModel
+
 
 <div class="container">
     <div class="main_container">
 
         <form class="column_add" action="/" method="post">
             <div class="text1">Добавление данных</div>
-
-            <select id="Film" name="Film">
+            
+            <select id="FilmName" name="FilmName">
                 <option value="1">Фильм</option>
+            </select>           
+
+            <select id="EmployeeName" name="EmployeeName">
+                <option value="1">Участник</option>
+            </select>
+          
+            <select id="EmployeeType" name="EmployeeType">
+                <option value="1">Что он там делал</option>
             </select>
 
-            <input type="number" step="0.00" name="TotalSum" placeholder="Сумма" class="input">
-
-            <input type="date" name="Date " placeholder="Дата" class="input">
+         
 
             <button class="btn" type="submit">Окей</button>
 
@@ -33,17 +40,16 @@
                             <td class="col" style="background:#eee;">@item</td>
                         }
                     </tr>
-                    @if (ViewData["TableData"] != null)
+
+                    @foreach (var item in (ViewData["TableData"]) as FilmsEmpViewModel[])
                     {
-                        @foreach (var item in (ViewData["TableData"]) as BoxOfficeViewModel[])
-                        {
-                <tr class="row">
-                    <td class="col" contenteditable="true">@item.Film</td>
-                    <td class="col" contenteditable="true">@item.TotalSum</td>
-                    <td class="col" contenteditable="true">@item.Date</td>
-                </tr>
-                        }
+                        <tr class="row">
+                            <td class="col" contenteditable="true">@item.FilmName</td>
+                            <td class="col" contenteditable="true">@item.EmployeeName</td>
+                            <td class="col" contenteditable="true">@item.EmployeeType</td>
+                        </tr>
                     }
+
 
                 </table>
             </form>
