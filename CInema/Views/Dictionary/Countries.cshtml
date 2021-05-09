@@ -6,7 +6,7 @@
 <div class="container">
     <div class="main_container">
 
-        <form class="column_add" action="/" method="post">
+        <form class="column_add" asp-controller="DictionaryController" asp-action="AddCountries" method="post">
             <div class="text1">Добавление данных</div>
 
             <input type="text" name="Name" required placeholder="Страна" class="input">

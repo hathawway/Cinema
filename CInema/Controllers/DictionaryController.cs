@@ -1,5 +1,6 @@
 ﻿using Cinema.Domain.Db;
 using Cinema.Domain.Models.Common;
+using Cinema.Domain.Models.Film;
 using Cinema.Models.Common;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -119,5 +120,14 @@ namespace Cinema.Controllers
             ViewData["TableData"] = filmStudios;
             return View();
         }
-       }
+
+        [HttpPost]
+        public IActionResult AddFilmStudio(FilmStudio filmStudio)
+        {
+            var filmStudios = _context.FilmStudios.Add(filmStudio);
+            _context.SaveChanges();
+            return View();
+        }
+
+    }
 }
