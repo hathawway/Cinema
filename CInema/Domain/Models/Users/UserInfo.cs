@@ -14,7 +14,7 @@ namespace Cinema.Domain.Models.Users
         public string FirstName { get; set; }
         [Column("SECOND_NAME")]
         public string SecondName { get; set; }
-        [Column("LAST_NAME")]
+        [Column("THIRD_NAME")]
         public string ThirdName { get; set; }
         [Column("BIRTHDAY")]
         public DateTime Birthday{ get; set; }
