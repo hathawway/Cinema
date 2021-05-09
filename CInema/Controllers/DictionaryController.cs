@@ -32,11 +32,14 @@ namespace Cinema.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult AddCountries(Country country)
+        public IActionResult AddCountries(CountryViewModel country)
         {
-            var countries = _context.Countries.Add(country);
+            _context.Countries.Add(new Country()
+            {
+                Name = country.Name
+            });
             _context.SaveChanges();
-            return View();
+            return RedirectToAction("Countries", "Dictionary");
         }
 
         [HttpGet]
@@ -61,7 +64,7 @@ namespace Cinema.Controllers
                 Name = country.Name
             });
             _context.SaveChanges();
-            return View();
+            return RedirectToAction("EmployeeTypes", "Dictionary");
         }
 
         [HttpGet]
@@ -77,13 +80,16 @@ namespace Cinema.Controllers
             ViewData["TableData"] = genres;
             return View();
         }
-        
+
         [HttpPost]
-        public IActionResult AddGenre(Genre genre )
+        public IActionResult AddGenre(GenreViewModel genre)
         {
-            var genres = _context.Genres.Add(genre);
+            var genres = _context.Genres.Add(new Genre() 
+            {
+                Name = genre.Name
+            });
             _context.SaveChanges();
-            return View();
+            return RedirectToAction("Genre", "Dictionary");
         }
 
         [HttpGet]
@@ -100,11 +106,14 @@ namespace Cinema.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult AddRating(Rating rating)
+        public IActionResult AddRating(RatingViewModel rating)
         {
-            var genres = _context.Ratings.Add(rating);
+            var genres = _context.Ratings.Add(new Rating()
+            {
+                Name = rating.Name
+            });
             _context.SaveChanges();
-            return View();
+            return RedirectToAction("Rating", "Dictionary");
         }
         
         [HttpGet]
@@ -122,11 +131,14 @@ namespace Cinema.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddFilmStudio(FilmStudio filmStudio)
+        public IActionResult AddFilmStudio(FilmStudioViewModel filmStudio)
         {
-            var filmStudios = _context.FilmStudios.Add(filmStudio);
+            var filmStudios = _context.FilmStudios.Add(new FilmStudio()
+            {
+                Name = filmStudio.Name
+            });
             _context.SaveChanges();
-            return View();
+            return RedirectToAction("FilmStudio", "Dictionary");
         }
 
     }
