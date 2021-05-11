@@ -50,8 +50,6 @@ namespace Cinema
 
             services.AddHttpContextAccessor();
             services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
-            var TimeDuration = 70;
-            Console.WriteLine((TimeDuration / 60) + "�. " + (TimeDuration % 60) + " �.");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

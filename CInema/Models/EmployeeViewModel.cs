@@ -32,5 +32,9 @@ namespace Cinema.Models
         {
             return DateTime.Now.Year - BirthDay.Year;
         }
+        public string Initials()
+        {
+            return FirstName + " " + SecondName.Substring(0, 1) + ". " + ThirdName.Substring(0,1)+"." ;
+        }
     }
 }
