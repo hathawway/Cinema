@@ -27,5 +27,10 @@ namespace Cinema.Models
          * Дата рождения
          */
         public DateTime BirthDay{ get; set; }
+
+        public int Age()
+        {
+            return DateTime.Now.Year - BirthDay.Year;
+        }
     }
 }

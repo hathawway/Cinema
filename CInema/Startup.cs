@@ -1,6 +1,4 @@
 using Cinema.Domain.Db;
-using Cinema.Domain.Models;
-using Cinema.Domain.Models.Users;
 using Cinema.Service;
 using Cinema.Service.Interfaces;
 using Microsoft.AspNetCore.Builder;
@@ -47,7 +45,13 @@ namespace Cinema
                 options.IdleTimeout = TimeSpan.FromSeconds(3600);
                 options.Cookie.IsEssential = true;
             });
-            
+
+
+
+            services.AddHttpContextAccessor();
+            services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
+            var TimeDuration = 70;
+            Console.WriteLine((TimeDuration / 60) + "�. " + (TimeDuration % 60) + " �.");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

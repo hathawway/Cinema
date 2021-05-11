@@ -1,0 +1,34 @@
+﻿@{ ViewData["Title"] = "Реестр кинофильмов"; }
+
+
+<div class="container">
+    <div class="main_container">
+
+        <div class="column_see">
+            <div class="text1">@ViewData["TableName"]</div>
+
+            <form class="container_table" action="/" method="post">
+                <table class="table">
+                    <tr class="row">
+                        @foreach (var item in (ViewData["Headers"]) as string[])
+                        {
+                            <td class="col" style="background:#eee;">@item</td>
+                        }
+                    </tr>
+                    @if (ViewData["TableData"] != null)
+                    {
+                        @foreach (var item in (ViewData["TableData"]) as IEnumerable<FilmViewModel>)
+                        {
+                            <tr class="row">
+                                <td class="col" contenteditable="true">@item.Name</td>
+
+                            </tr>
+                        }
+                    }
+
+                </table>
+            </form>
+        </div>
+
+    </div>
+</div>

@@ -4,7 +4,6 @@ using Cinema.Models.User;
 using Cinema.Service.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System.Linq;
 
 namespace Cinema.Controllers

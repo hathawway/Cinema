@@ -40,6 +40,31 @@ namespace Cinema.Controllers
                 "Жанр",
                 "Рейтинг"};
             ViewData["TableName"] = "Фильмы";
+
+            ViewData["Genres"] = _context.Genres.Select(x => new GenreViewModel
+            { 
+                Id = x.Kod,
+                Name = x.Name
+            }
+            ).AsEnumerable();
+            ViewData["Ratings"] = _context.Ratings.Select(x => new RatingViewModel
+            {
+                Id = x.Kod,
+                Name = x.Name
+            }
+           ).AsEnumerable();
+            ViewData["Countries"] = _context.Countries.Select(x => new CountryViewModel
+            {
+                Id = x.Kod,
+                Name = x.Name
+            }
+           ).AsEnumerable();
+            ViewData["Studio"] = _context.FilmStudios.Select(x => new FilmStudioViewModel
+            {
+                Id = x.Kod,
+                Name = x.Name
+            }
+           ).AsEnumerable();
             return View();
         }
 
@@ -66,7 +91,6 @@ namespace Cinema.Controllers
                 EmployeeName = _context.Employees.First(h => h.Kod == x.EmployeeKod).FIO(),
                 EmployeeType = _context.EmployeeTypes.First(et => et.Kod == x.TypeEmployeeKod).Name,
                 FilmName = _context.Films.First(f => f.Kod == x.FilmKod).Name
-                
             }).ToArray();
             ViewData["TableName"] = "Семпы фильма";
             ViewData["Headers"] = new string[] { "Фильм", "Сотрудник", "Должность" };

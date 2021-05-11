@@ -15,5 +15,9 @@ namespace Cinema.Models
         public int TimeDuration { get; set; }
         public string Genre{ get; set; }
         public string Rating { get; set; }
+        public string Durations()
+        { 
+            return (TimeDuration/60) + "ч. "+ (TimeDuration % 60) + " м.";
+        }
     }
 }
