@@ -18,10 +18,10 @@
                     </tr>
                     @if (ViewData["TableData"] != null)
                     {
-                        @foreach (var item in (ViewData["TableData"]) as RatingViewModel[])
+                        @foreach (var item in (ViewData["TableData"]) as string[])
                         {
                             <tr class="row">
-                                <td class="col" contenteditable="true">@item.Name</td>
+                                <td class="col" contenteditable="true">@item</td>
 
                             </tr>
                         }

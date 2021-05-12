@@ -1,5 +1,5 @@
 ﻿@{ ViewData["Title"] = "Реестр кинофильмов"; }
-@model FilmViewModel
+@model StatOnGenre
 
 
 <div class="container">
@@ -18,12 +18,12 @@
                     </tr>
                     @if (ViewData["TableData"] != null)
                     {
-                        @foreach (var item in (ViewData["TableData"]) as FilmViewModel[])
+                        @foreach (var item in (ViewData["TableData"]) as IEnumerable<StatOnGenre>)
                         {
                             <tr class="row">
                                 <td class="col" contenteditable="true">@item.Genre</td>
-                                <td class="col" contenteditable="true">@item.Name</td>
-                                <td class="col" contenteditable="true">@item.Name</td>
+                                <td class="col" contenteditable="true">@item.RusAmount</td>
+                                <td class="col" contenteditable="true">@item.ForreignAmount</td>
 
                             </tr>
                         }
