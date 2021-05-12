@@ -120,15 +120,14 @@ namespace Cinema.Controllers
 
         public IActionResult AllUsers()
         {
-            var employees = _context.UserInfo.Select(e => new UserInfoViewModel
-                    {
-                        FirstName = e.FirstName,
-                        SecondName = e.SecondName,
-                        ThirdName = e.ThirdName,
-                        BirthDay = e.Birthday
-                    });
+            var employees = _context.Users.Select(e => new UserViewModel
+            {
+                Login = e.Login,
+                Password = e.Password,
+                Role = _context.Roles.First(u => u.Kod == e.RoleId).Name
+            });
             ViewData["TableName"] = "Сотрудники";
-            ViewData["Headers"] = new string[] { "Логин", "Пароль", "Имя", "Фамилия", "Отчество", "День рождения" };
+            ViewData["Headers"] = new string[] { "", "Логин", "Пароль", "Роль"};
             ViewData["TableData"] = employees.ToArray();
             return View();
         }

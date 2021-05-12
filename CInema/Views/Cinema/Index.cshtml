@@ -10,25 +10,49 @@
 
                 <input type="text" name="Name" required placeholder="Название фильма" class="input">
 
-                <select id="Studio" name="StudioKod">
-                    <option value="1">киностудия</option>
+                <select class="select" asp-for="Studio" type="text" title="Studio">
+                    {
+                    @foreach (var item in (ViewData["TableData"]) as IEnumerable<FilmViewModel>)
+                    {
+                        <option value=@item>@item.Studio</option>
+                    }
+
+                    }
                 </select>
 
                 <input type="date" name="StartDate" placeholder="Дата начала" class="input">
 
-                <select id="Country" name="Country">
-                    <option value="1">страна</option>
+                <select class="select" asp-for="Country" type="text" title="Country">
+                    {
+                    @foreach (var item in (ViewData["Countries"]) as IEnumerable<CountryViewModel>)
+                    {
+                        <option value=@item.Id>@item.Name</option>
+                    }
+
+                    }
                 </select>
 
                 <input type="number" min="1" name="TimeDuration" placeholder="Продолжительность" class="input">
 
 
-                <select id="Genre" name="Genre">
-                    <option value="1">жанр</option>
+                <select class="select" asp-for="Genre" type="text" title="Genre">
+                    {
+                    @foreach (var item in (ViewData["Genres"]) as IEnumerable<GenreViewModel>)
+                    {
+                        <option value=@item.Id>@item.Name</option>
+                    }
+
+                    }
                 </select>
 
-                <select id="Rating" name="Rating">
-                    <option value="1">рейтинг</option>
+                <select class="select" asp-for="Rating" type="text" title="Rating">
+                    {
+                    @foreach (var item in (ViewData["Ratings"]) as IEnumerable<RatingViewModel>)
+                    {
+                        <option value=@item.Id>@item.Name</option>
+                    }
+
+                    }
                 </select>
 
                 <button class="btn" type="submit">Окей</button>
@@ -36,14 +60,11 @@
             </form>
 
             <div class="column_see">
-                <div class="text1">@ViewData["TableName"]</div>
-                <div class="container_btn">
-                    <button class="btn_change">Редактировать</button>
-                    <button class="btn_change">Удалить</button>
-                </div>
+                <div class="text1" style="margin-bottom:10px;">@ViewData["TableName"]</div>
                 <form class="container_table" action="/" method="post">
                     <table class="table">
                         <tr class="row">
+                            
                             @foreach (var item in (ViewData["Headers"]) as string[])
                             {
                                 <td class="col" style="background:#eee;">@item</td>
@@ -53,17 +74,24 @@
                             @foreach (var item in (ViewData["TableData"]) as FilmViewModel[])
                             {
                                 <tr class="row">
-                                    <td class="col" contenteditable="true">@item.Name</td>
-                                    <td class="col" contenteditable="true">@item.Studio</td>
-                                    <td class="col" contenteditable="true">@item.StartDate</td>
+                                    <td class="col" style="width:130px">
+                                        <div class="container_btn">
+                                            <button class="btn_change">Редактировать</button>
+                                            <button class="btn_change">Удалить</button>
+                                        </div>
+                                    </td>
 
-                                    <td class="col" contenteditable="true">@item.Country</td>
-                                    <td class="col" contenteditable="true">@item.TimeDuration</td>
-                                    <td class="col" contenteditable="true">@item.Genre</td>
-                                    <td class="col" contenteditable="true">@item.Rating</td>
+                                <td class="col" contenteditable="true">@item.Name</td>
+                                <td class="col" contenteditable="true">@item.Studio</td>
+                                <td class="col" contenteditable="true">@item.StartDate.ToShortDateString()</td>
+
+                                <td class="col" contenteditable="true">@item.Country</td>
+                                <td class="col" contenteditable="true">@item.TimeDuration</td>
+                                <td class="col" contenteditable="true">@item.Genre</td>
+                                <td class="col" contenteditable="true">@item.Rating</td>
+
                                 </tr>
-                            }
-                        
+                            }                       
 
                     </table>
                 </form>

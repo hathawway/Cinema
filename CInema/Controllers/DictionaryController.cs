@@ -27,7 +27,7 @@ namespace Cinema.Controllers
             }).ToArray();
             
             ViewData["TableName"] = "Страны";
-            ViewData["Headers"] = new string[] {"Название"};
+            ViewData["Headers"] = new string[] { "", "Название" };
             ViewData["TableData"] = countries;
             return View();
         }
@@ -51,7 +51,7 @@ namespace Cinema.Controllers
                 Name = x.Name
             }).ToArray();
             ViewData["TableName"] = "Должности";
-            ViewData["Headers"] = new string[] { "Название" };
+            ViewData["Headers"] = new string[] { "", "Название" };
             ViewData["TableData"] = employeeTypes;
             return View();
         }
@@ -76,7 +76,7 @@ namespace Cinema.Controllers
                 Name = x.Name
             }).ToArray();
             ViewData["TableName"] = "Жанры";
-            ViewData["Headers"] = new string[] {"Название" };
+            ViewData["Headers"] = new string[] { "", "Название" };
             ViewData["TableData"] = genres;
             return View();
         }
@@ -101,7 +101,7 @@ namespace Cinema.Controllers
                 Name = x.Name
             }).ToArray();
             ViewData["TableName"] = "Рейтинг";
-            ViewData["Headers"] = new string[] { "Название" };
+            ViewData["Headers"] = new string[] { "", "Название" };
             ViewData["TableData"] = ratings;
             return View();
         }
@@ -125,7 +125,7 @@ namespace Cinema.Controllers
                 Name = x.Name
             }).ToArray();
             ViewData["TableName"] = "Студии";
-            ViewData["Headers"] = new string[] { "Название" };
+            ViewData["Headers"] = new string[] { "", "Название" };
             ViewData["TableData"] = filmStudios;
             return View();
         }

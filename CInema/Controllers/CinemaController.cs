@@ -32,11 +32,12 @@ namespace Cinema.Controllers
             });
             ViewData["TableData"] = cinemas.ToArray();
             ViewData["Headers"] = new string[]{ 
+                "",
                 "Название фильма",
                 "Киностудия",
                 "Дата премьеры",
                 "Страна",
-                "Продолжительность",
+                "Длительность",
                 "Жанр",
                 "Рейтинг"};
             ViewData["TableName"] = "Фильмы";
@@ -93,7 +94,7 @@ namespace Cinema.Controllers
                 FilmName = _context.Films.First(f => f.Kod == x.FilmKod).Name
             }).ToArray();
             ViewData["TableName"] = "Семпы фильма";
-            ViewData["Headers"] = new string[] { "Фильм", "Сотрудник", "Должность" };
+            ViewData["Headers"] = new string[] { "", "Фильм", "Сотрудник", "Должность" };
             ViewData["TableData"] = filmsEmpsViewModel;
             return View();
         }
@@ -112,7 +113,7 @@ namespace Cinema.Controllers
                 ZalNumber = x.Hall
             }).ToArray();
             ViewData["TableName"] = "Расписание";
-            ViewData["Headers"] = new string[] { "Фильм", "Начало", "Номер зала", "Количество мест", "Цена за билет", "Количество свободных мест" };
+            ViewData["Headers"] = new string[] { "", "Фильм", "Начало", "Номер зала", "Количество мест", "Цена за билет", "Количество свободных мест" };
             ViewData["TableData"] = filmSession;
             return View();
         }

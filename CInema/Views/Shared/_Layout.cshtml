@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject ISignIn SignInManager
+@inject IUser UserManager
+
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -8,6 +14,7 @@
     <title>Cinema</title>
 </head>
 
+
 <body>
     <header class="header">
         <div class="container">
@@ -15,12 +22,18 @@
                 <div class="header_logo">Реестр кинофильмов</div>
 
                 <nav class="nav__link">
-                    <!--<a class="nav_link" href="#">Таблицы</a>-->
-                    @await Html.PartialAsync("_LayoutTable")
-                    <!--<a class="nav_link" href="#">Справочники</a>-->
-                    @await Html.PartialAsync("_LayoutDictionary")
-                    <a class="nav_link" href="#">Документ</a>
-                    <a class="nav_link" href="#">Выход</a>
+                    @if (SignInManager.IsSignedIn())
+                    {
+                        <!--<a class="nav_link" href="#">Таблицы</a>-->
+                        @await Html.PartialAsync("_LayoutTable")
+                        <!--<a class="nav_link" href="#">Справочники</a>-->
+                        @await Html.PartialAsync("_LayoutDictionary")
+                        @await Html.PartialAsync("_LayoutQuery")
+                        <a class="nav_link" href="#">Документ</a>
+
+                        <a class="nav_link" href="/User/Logout">Выход</a>
+                    }
+
                 </nav>
             </div>
         </div>

@@ -46,8 +46,8 @@ namespace Cinema.Controllers
                 Studio = _context.FilmStudios.First(s => s.Kod == x.StudioKod).Name,
                 TimeDuration = x.TimeDuration
             }).AsEnumerable();
-            ViewData["TableName"] = "Кассовые сборы";
-            ViewData["Headers"] = new string[] { "Фильм", "Сумма", "Дата" };
+            ViewData["TableName"] = "Список фильмов, вышедших в текущем году в России";
+            ViewData["Headers"] = new string[] { "Фильм", "Дата", "Страна" };
             ViewData["TableData"] = films;
             return View();
         }
@@ -76,7 +76,10 @@ namespace Cinema.Controllers
                 RuFilm = x.RuFilm,
                 Count = x.Count - x.RuFilm
             }).AsEnumerable();
-
+            ViewData["TableName"] = "Статистика по жанрам";
+            ViewData["Headers"] = new string[] { "Жанр", "Кол-во фильмов снятых в России", "Кол-во фильмов снятых в др. странах" };
+            ViewData["TableData"] = genres;
+        
             return View();
         }
     }

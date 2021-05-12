@@ -1,18 +1,14 @@
 ﻿<div class="dropdown">
 
-
+    <a class="dropbtn" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Таблицы</a>
     <div class="dropdown-content">
-        <a class="dropdown-content__link" asp-controller="Account" asp-action="Index">Актеры-режиссеры</a>
+        <a class="dropdown-content__link" asp-controller="Cinema" asp-action="FilmsEmp">Актеры-режиссеры</a>
 
-        <a class="dropdown-content__link" asp-controller="Account" asp-action="Index">Сеансы</a>
+        <a class="dropdown-content__link" asp-controller="Cinema" asp-action="SessionFilms">Сеансы</a>
 
-        <a class="dropdown-content__link" asp-controller="Account" asp-action="Index">Кассовые сборы</a>
+        <a class="dropdown-content__link" asp-controller="User" asp-action="AllUsers">Пользователи</a>
 
-        <a class="dropdown-content__link" asp-controller="User" asp-action="Logout">Пользователи</a>
-
-        <a class="dropdown-content__link" asp-controller="Account" asp-action="Index">Участники фильмов</a>
-
-        <a class="dropdown-content__link" asp-controller="Account" asp-action="Index">Фильмы</a>
+        <a class="dropdown-content__link" asp-controller="Cinema" asp-action="Index">Фильмы</a>
 
     </div>
 

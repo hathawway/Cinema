@@ -15,11 +15,8 @@
         </form>
 
         <div class="column_see">
-            <div class="text1">@ViewData["TableName"]</div>
-            <div class="container_btn">
-                <button class="btn_change">Редактировать</button>
-                <button class="btn_change">Удалить</button>
-            </div>
+            <div class="text1" style="margin-bottom:10px;">@ViewData["TableName"]</div>
+
             <form class="container_table" action="/" method="post">
                 <table class="table">
                     <tr class="row">
@@ -32,10 +29,17 @@
                     {
                         @foreach (var item in (ViewData["TableData"]) as TypeEmployeeViewModel[])
                         {
-                            <tr class="row">
-                                <td class="col" contenteditable="true">@item.Name</td>
+                <tr class="row">
+                    <td class="col" style="width:130px">
+                        <div class="container_btn">
+                            <button class="btn_change">Редактировать</button>
+                            <button class="btn_change">Удалить</button>
+                        </div>
+                    </td>
 
-                            </tr>
+                    <td class="col" contenteditable="true">@item.Name</td>
+
+                </tr>
                         }
                     }
 

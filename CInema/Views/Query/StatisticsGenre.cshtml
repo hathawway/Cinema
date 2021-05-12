@@ -1,11 +1,13 @@
 ﻿@{ ViewData["Title"] = "Реестр кинофильмов"; }
-@model BoxOfficeViewModel
+@model FilmViewModel
+
 
 <div class="container">
     <div class="main_container">
-        
-        <div class="column_see" style="width:100%" >
+
+        <div class="column_see" style="width:100%">
             <div class="text1" style="margin-bottom:10px;">@ViewData["TableName"]</div>
+
             <div class="container_table">
                 <table class="table">
                     <tr class="row">
@@ -16,13 +18,14 @@
                     </tr>
                     @if (ViewData["TableData"] != null)
                     {
-                        @foreach (var item in (ViewData["TableData"]) as BoxOfficeViewModel[])
+                        @foreach (var item in (ViewData["TableData"]) as FilmViewModel[])
                         {
-                <tr class="row">
-                    <td class="col" contenteditable="true">@item.Film</td>
-                    <td class="col" contenteditable="true">@item.TotalSum</td>
-                    <td class="col" contenteditable="true">@item.Date.ToShortDateString()</td>
-                </tr>
+                            <tr class="row">
+                                <td class="col" contenteditable="true">@item.Genre</td>
+                                <td class="col" contenteditable="true">@item.Name</td>
+                                <td class="col" contenteditable="true">@item.Name</td>
+
+                            </tr>
                         }
                     }
 
