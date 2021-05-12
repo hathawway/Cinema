@@ -63,11 +63,18 @@ namespace Cinema.Controllers
         public IActionResult StatisticGenre()
         {
             var russiaCode = _context.Countries.First(x => x.Name == "Россия").Kod;
+            var films = _context.Films.Select(x => x).ToArray();
 
-            var genres = _context.Films.Where(x => x.CountryKod == russiaCode).GroupBy(x => x.GenreKod).Select(x => new
+            var genres = films.GroupBy(x => x.GenreKod).Select(x => new 
             {
-                Genre = x,
-                ForreignCount = x.Count()
+                Genre = x.Key,
+                RuFilm = films.Where(f => f.GenreKod == x.Key && f.CountryKod == russiaCode).Count(),
+                Count = x.Count()
+            }).Select(x => new 
+            {
+                Genre = _context.Genres.First(g => g.Kod == x.Genre).Name,
+                RuFilm = x.RuFilm,
+                Count = x.Count - x.RuFilm
             }).AsEnumerable();
 
             return View();
