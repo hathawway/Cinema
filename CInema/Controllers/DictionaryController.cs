@@ -1,4 +1,5 @@
 ﻿using Cinema.Domain.Db;
+using Cinema.Domain.Models;
 using Cinema.Domain.Models.Common;
 using Cinema.Domain.Models.Film;
 using Cinema.Models.Common;
@@ -18,9 +19,18 @@ namespace Cinema.Controllers
         }
 
         [HttpGet]
-        public IActionResult Countries()
+        public IActionResult Countries(long id)
         {
-            var defaultViewModel = new CountryViewModel();
+            CountryViewModel defaultViewModel = new ();
+
+            if (id != 0)
+            {
+                defaultViewModel = _context.Countries.Where(x => x.Kod == id).Select(x => new CountryViewModel()
+                {
+                    Id = x.Kod,
+                    Name = x.Name,
+                }).First();
+            }
 
             var countries = _context.Countries.Select(x => new CountryViewModel 
             {
@@ -29,49 +39,52 @@ namespace Cinema.Controllers
             }).OrderBy(x => x.Name).AsEnumerable();
             
             ViewData["TableName"] = "Страны";
-            ViewData["Headers"] = new string[] { "Название" };
+            ViewData["Headers"] = new string[] { "", "Название" };
             ViewData["TableData"] = countries;
             return View(defaultViewModel);
         }
         [HttpPost]
-        public IActionResult AddCountries(CountryViewModel country)
+        public IActionResult AddOrUpdateCountries(CountryViewModel country)
         {
-            _context.Countries.Add(new Country()
+            if (country.Id != 0) 
             {
-                Name = country.Name
-            });
+                var editingCountry = _context.Countries.First(x => x.Kod == country.Id);
+                editingCountry.Name = country.Name;
+            }
+            else
+            {
+                _context.Countries.Add(new Country()
+                {
+                    Name = country.Name
+                });
+            }
+            
             _context.SaveChanges();
             return RedirectToAction("Countries", "Dictionary");
         }
         [HttpPost]
-        public IActionResult PatchCountry(CountryViewModel country)
-        {            
-            var countryPatch = _context.Countries.FirstOrDefault(x => x.Kod == country.Id);
-            countryPatch.Name = country.Name;
+        public IActionResult DeleteCounty(long id)
+        {
+            _context.Countries.Remove(_context.Countries.First(x => x.Kod == id));
             _context.SaveChanges();
             return RedirectToAction("Countries", "Dictionary");
         }
 
-
         [HttpGet]
         public IActionResult EmployeeTypes(long id)
         {
-            TypeEmployeeViewModel defaultViewModel;
+            TypeEmployeeViewModel defaultViewModel = new();
             if (id != 0)
             {
                 defaultViewModel = _context.EmployeeTypes.Where(x => x.Kod == id).
-                    Select(x => new TypeEmployeeViewModel
+                    Select(x => new TypeEmployeeViewModel()
                     {
                         Id = x.Kod,
                         Name = x.Name
                     }).First();
-            } else
-            {
-                defaultViewModel = new TypeEmployeeViewModel();
-                defaultViewModel.Id = 0;
-                defaultViewModel.Name = "";
             }
-            var employeeTypes = _context.EmployeeTypes.Select(x => new TypeEmployeeViewModel 
+
+            var employeeTypes = _context.EmployeeTypes.Select(x => new TypeEmployeeViewModel() 
             {
                 Id = x.Kod,
                 Name = x.Name
@@ -83,72 +96,100 @@ namespace Cinema.Controllers
             return View(defaultViewModel);
         }
         [HttpPost]
-        public IActionResult AddEmployeeTypes(TypeEmployeeViewModel country)
+        public IActionResult AddOrUpdateEmployeeTypes(TypeEmployeeViewModel employeeType)
         {
-            var countries = _context.Countries.Add(new Country 
-            { 
-                Kod = country.Id,
-                Name = country.Name
-            });
-            _context.SaveChanges();
-            return RedirectToAction("EmployeeTypes", "Dictionary");
-        }
-        [HttpPost]
-        public IActionResult EditEmployeeTypes(TypeEmployeeViewModel country)
-        {
-            var countries = _context.Countries.Add(new Country
+            if (employeeType.Id == 0)
             {
-                Kod = country.Id,
-                Name = country.Name
-            });
+                _context.EmployeeTypes.Add(new TypeEmployee()
+                {
+                    Name = employeeType.Name
+                });
+            } else
+            {
+                var employee = _context.EmployeeTypes.First(x => x.Kod == employeeType.Id);
+                employee.Name = employeeType.Name;
+            }
+            
             _context.SaveChanges();
             return RedirectToAction("EmployeeTypes", "Dictionary");
         }
         [HttpPost]
-        public IActionResult DeleteEmployee(long id)
+        public IActionResult DeleteEmployeeType(long id)
         {
+            _context.EmployeeTypes.Remove(_context.EmployeeTypes.First(x => x.Kod == id));
+            _context.SaveChanges();
             return RedirectToAction("EmployeeTypes", "Dictionary");
         }
-
-
 
         [HttpGet]
-        public IActionResult Genre()
+        public IActionResult Genre(long id)
         {
+            GenreViewModel defaultViewModel = new ();
+            if (id != 0)
+            {
+                defaultViewModel = _context.Genres.Where(x => x.Kod == id).Select(x => new GenreViewModel()
+                {
+                    Id = x.Kod,
+                    Name = x.Name
+                }).First();
+            }
             var genres = _context.Genres.Select(x => new GenreViewModel 
             {
                 Id = x.Kod,
                 Name = x.Name
-            }).OrderBy(x => x.Name).ToArray();
+            }).OrderBy(x => x.Name).AsEnumerable();
             ViewData["TableName"] = "Жанры";
             ViewData["Headers"] = new string[] { "", "Название" };
             ViewData["TableData"] = genres;
-            return View();
+            return View(defaultViewModel);
         }
-
         [HttpPost]
-        public IActionResult AddGenre(GenreViewModel genre)
+        public IActionResult AddOrUpdateGenre(GenreViewModel genre)
         {
-            var genres = _context.Genres.Add(new Genre() 
+            if (genre.Id != 0)
             {
-                Name = genre.Name
-            });
+                _context.Genres.First(x => x.Kod == genre.Id).Name = genre.Name;
+            }
+            {
+                _context.Genres.Add(new Genre()
+                {
+                    Name = genre.Name
+                });
+            }
+            _context.SaveChanges();
+            return RedirectToAction("Genre", "Dictionary");
+        }
+        [HttpPost]
+        public IActionResult DeleteGenre(long id)
+        {
+            _context.Genres.Remove(_context.Genres.First(x => x.Kod == id));
             _context.SaveChanges();
             return RedirectToAction("Genre", "Dictionary");
         }
 
         [HttpGet]
-        public IActionResult Rating()
+        public IActionResult Rating(long id)
         {
+            RatingViewModel defaultViewModel = new();
+
+            if (id != 0)
+            {
+                defaultViewModel = _context.Ratings.Where(x => x.Kod == id).Select(x => new RatingViewModel()
+                {
+                    Id = x.Kod,
+                    Name = x.Name
+                }).First();
+            }
+
             var ratings = _context.Ratings.Select(x => new RatingViewModel
             {
                 Id = x.Kod,
                 Name = x.Name
-            }).OrderBy(x => x.Name).ToArray();
+            }).OrderBy(x => x.Name).AsEnumerable();
             ViewData["TableName"] = "Рейтинг";
             ViewData["Headers"] = new string[] { "", "Название" };
             ViewData["TableData"] = ratings;
-            return View();
+            return View(defaultViewModel);
         }
         [HttpPost]
         public IActionResult AddRating(RatingViewModel rating)
@@ -160,28 +201,53 @@ namespace Cinema.Controllers
             _context.SaveChanges();
             return RedirectToAction("Rating", "Dictionary");
         }
-        
-        [HttpGet]
-        public IActionResult FilmStudio()
+        [HttpPost]
+        public IActionResult DeleteRating(long id)
         {
+            _context.Ratings.Remove(_context.Ratings.First(x => x.Kod == id));
+            _context.SaveChanges();
+            return RedirectToAction("Rating", "Dictionary");
+        }
+
+        [HttpGet]
+        public IActionResult FilmStudio(long id)
+        {
+
+            FilmStudioViewModel defaultViewModel = new();
+
+            if (id != 0)
+            {
+                defaultViewModel = _context.FilmStudios.Where(x => x.Kod == id).Select(x => new FilmStudioViewModel()
+                {
+                    Id = x.Kod,
+                    Name = x.Name
+                }).First();
+            }
+
             var filmStudios = _context.FilmStudios.Select(x => new FilmStudioViewModel 
             {
                 Id = x.Kod,
                 Name = x.Name
-            }).OrderBy(x => x.Name).ToArray();
+            }).OrderBy(x => x.Name).AsEnumerable();
             ViewData["TableName"] = "Студии";
             ViewData["Headers"] = new string[] { "", "Название" };
             ViewData["TableData"] = filmStudios;
-            return View();
+            return View(defaultViewModel);
         }
-
         [HttpPost]
         public IActionResult AddFilmStudio(FilmStudioViewModel filmStudio)
         {
-            var filmStudios = _context.FilmStudios.Add(new FilmStudio()
+            _context.FilmStudios.Add(new FilmStudio()
             {
                 Name = filmStudio.Name
             });
+            _context.SaveChanges();
+            return RedirectToAction("FilmStudio", "Dictionary");
+        }
+        [HttpPost]
+        public IActionResult DeleteFilmStudio(long id)
+        {
+            _context.FilmStudios.Remove(_context.FilmStudios.First(x => x.Kod == id));
             _context.SaveChanges();
             return RedirectToAction("FilmStudio", "Dictionary");
         }
