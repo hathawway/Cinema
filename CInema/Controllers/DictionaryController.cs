@@ -20,16 +20,18 @@ namespace Cinema.Controllers
         [HttpGet]
         public IActionResult Countries()
         {
+            var defaultViewModel = new CountryViewModel();
+
             var countries = _context.Countries.Select(x => new CountryViewModel 
             {
                 Id = x.Kod,
                 Name = x.Name
-            }).ToArray();
+            }).OrderBy(x => x.Name).AsEnumerable();
             
             ViewData["TableName"] = "Страны";
-            ViewData["Headers"] = new string[] { "", "Название" };
+            ViewData["Headers"] = new string[] { "Название" };
             ViewData["TableData"] = countries;
-            return View();
+            return View(defaultViewModel);
         }
         [HttpPost]
         public IActionResult AddCountries(CountryViewModel country)
@@ -41,22 +43,47 @@ namespace Cinema.Controllers
             _context.SaveChanges();
             return RedirectToAction("Countries", "Dictionary");
         }
+        [HttpPost]
+        public IActionResult PatchCountry(CountryViewModel country)
+        {            
+            var countryPatch = _context.Countries.FirstOrDefault(x => x.Kod == country.Id);
+            countryPatch.Name = country.Name;
+            _context.SaveChanges();
+            return RedirectToAction("Countries", "Dictionary");
+        }
+
 
         [HttpGet]
-        public IActionResult EmployeeTypes()
+        public IActionResult EmployeeTypes(long id)
         {
+            TypeEmployeeViewModel defaultViewModel;
+            if (id != 0)
+            {
+                defaultViewModel = _context.EmployeeTypes.Where(x => x.Kod == id).
+                    Select(x => new TypeEmployeeViewModel
+                    {
+                        Id = x.Kod,
+                        Name = x.Name
+                    }).First();
+            } else
+            {
+                defaultViewModel = new TypeEmployeeViewModel();
+                defaultViewModel.Id = 0;
+                defaultViewModel.Name = "";
+            }
             var employeeTypes = _context.EmployeeTypes.Select(x => new TypeEmployeeViewModel 
             {
                 Id = x.Kod,
                 Name = x.Name
-            }).ToArray();
+            }).OrderBy(x => x.Name).ToArray();
             ViewData["TableName"] = "Должности";
             ViewData["Headers"] = new string[] { "", "Название" };
             ViewData["TableData"] = employeeTypes;
-            return View();
+
+            return View(defaultViewModel);
         }
         [HttpPost]
-        public IActionResult AddEmployeeTypes(CountryViewModel country)
+        public IActionResult AddEmployeeTypes(TypeEmployeeViewModel country)
         {
             var countries = _context.Countries.Add(new Country 
             { 
@@ -66,6 +93,24 @@ namespace Cinema.Controllers
             _context.SaveChanges();
             return RedirectToAction("EmployeeTypes", "Dictionary");
         }
+        [HttpPost]
+        public IActionResult EditEmployeeTypes(TypeEmployeeViewModel country)
+        {
+            var countries = _context.Countries.Add(new Country
+            {
+                Kod = country.Id,
+                Name = country.Name
+            });
+            _context.SaveChanges();
+            return RedirectToAction("EmployeeTypes", "Dictionary");
+        }
+        [HttpPost]
+        public IActionResult DeleteEmployee(long id)
+        {
+            return RedirectToAction("EmployeeTypes", "Dictionary");
+        }
+
+
 
         [HttpGet]
         public IActionResult Genre()
@@ -74,7 +119,7 @@ namespace Cinema.Controllers
             {
                 Id = x.Kod,
                 Name = x.Name
-            }).ToArray();
+            }).OrderBy(x => x.Name).ToArray();
             ViewData["TableName"] = "Жанры";
             ViewData["Headers"] = new string[] { "", "Название" };
             ViewData["TableData"] = genres;
@@ -99,7 +144,7 @@ namespace Cinema.Controllers
             {
                 Id = x.Kod,
                 Name = x.Name
-            }).ToArray();
+            }).OrderBy(x => x.Name).ToArray();
             ViewData["TableName"] = "Рейтинг";
             ViewData["Headers"] = new string[] { "", "Название" };
             ViewData["TableData"] = ratings;
@@ -123,7 +168,7 @@ namespace Cinema.Controllers
             {
                 Id = x.Kod,
                 Name = x.Name
-            }).ToArray();
+            }).OrderBy(x => x.Name).ToArray();
             ViewData["TableName"] = "Студии";
             ViewData["Headers"] = new string[] { "", "Название" };
             ViewData["TableData"] = filmStudios;

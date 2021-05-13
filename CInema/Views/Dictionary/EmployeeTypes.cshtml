@@ -8,7 +8,8 @@
         <form class="column_add" asp-controller="Dictionary" asp-action="AddEmployeeTypes" method="post">
             <div class="text1">Добавление данных</div>
 
-            <input type="text" name="Name" required placeholder="Должность" asp-for="Name" class="input">
+            <input type="text" name="Name" required placeholder="Должность" asp-for="Name" class="input"
+                   value=@Model.Name>
 
             <button class="btn" type="submit">Окей</button>
 
@@ -17,7 +18,6 @@
         <div class="column_see">
             <div class="text1" style="margin-bottom:10px;">@ViewData["TableName"]</div>
 
-            <form class="container_table" action="/" method="post">
                 <table class="table">
                     <tr class="row">
                         @foreach (var item in (ViewData["Headers"]) as string[])
@@ -29,22 +29,25 @@
                     {
                         @foreach (var item in (ViewData["TableData"]) as TypeEmployeeViewModel[])
                         {
-                <tr class="row">
-                    <td class="col" style="width:130px">
-                        <div class="container_btn">
-                            <button class="btn_change">Редактировать</button>
-                            <button class="btn_change">Удалить</button>
-                        </div>
-                    </td>
+                        <tr class="row">
+                            <td class="col" style="width:130px">
+                                <div class="container_btn">
+                                    <button class="btn_change">
+                                    <a style="color:#000; text-decoration:none" href="/Dictionary/EmployeeTypes?id=@item.Id">Редактировать</button>
+                                    @using (Html.BeginForm("DeleteEmployee", "Dictionary", new { id = item.Id }, FormMethod.Post))
+                                    {
+                                        <button class="btn_change" type="submit">Удалить</button>
+                                    }
+                                </div>
+                            </td>
 
-                    <td class="col" contenteditable="true">@item.Name</td>
+                            <td class="col" contenteditable="true">@item.Name</td>
 
-                </tr>
+                        </tr>
                         }
                     }
 
                 </table>
-            </form>
         </div>
 
     </div>

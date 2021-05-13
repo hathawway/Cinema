@@ -19,6 +19,7 @@ namespace Cinema.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            var defaultObject = new FilmViewModel();
             var cinemas = _context.Films.Select(x => new FilmViewModel
             {
                 Kod = x.Kod,
@@ -66,7 +67,7 @@ namespace Cinema.Controllers
                 Name = x.Name
             }
            ).AsEnumerable();
-            return View();
+            return View(defaultObject);
         }
 
         [HttpGet]
