@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Cinema.Models.User
 {
     public class UserViewModel
     {
+
+        [Required]
         public string Login { get; set; }
+
+        [Required]
         public string Password { get; set; }
-        /*public EmployeeViewModel Employee { get; set; } */   
+
+        [Required]
+        public string Role { get; set; }
     }
-    /*public class EmployeeViewModel
-    {
-        public string FirstName { get; set; }
-        public string SecondName { get; set; }
-        public string ThirdName { get; set; }
-        public DateTime BirthDay { get; set; }
-    }*/
 }

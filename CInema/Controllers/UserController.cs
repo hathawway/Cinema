@@ -31,12 +31,6 @@ namespace Cinema.Controllers
             return View();
         }
 
-        /// <summary>
-        /// Авторизация в системе
-        /// </summary>
-        /// <param name="signInManager">Менеджер авторизации</param>
-        /// <param name="model">Входные данные с формы</param>
-        /// <param name="returnUrl">Путь перехода после авторизации</param>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -46,9 +40,9 @@ namespace Cinema.Controllers
             if (ModelState.IsValid)
             {
                 var user = _context.Users.FirstOrDefault(x => x.Login == model.Login);
-                if (user == null)
+                if (user != null)
                 {
-                    ModelState.AddModelError(string.Empty, "Проверьте имя пользователя и пароль");
+                    ViewData["ERROR"] = "Ошикба при попытке войти! Проверьте логин/пароль";
                     return View(model);
                 }
                 _signInManager.SignIn(user);
@@ -103,9 +97,7 @@ namespace Cinema.Controllers
         [HttpGet]
         public IActionResult Logout()
         {
-            //TODO сделать метод для разлогина
-            _signInManager.SignIn(null);
-
+            _signInManager.SignOut();
             return RedirectToAction("Index", "Home");
         }
 
@@ -126,6 +118,7 @@ namespace Cinema.Controllers
                 Password = e.Password,
                 Role = _context.Roles.First(u => u.Kod == e.RoleId).Name
             });
+
             ViewData["TableName"] = "Сотрудники";
             ViewData["Headers"] = new string[] { "", "Логин", "Пароль", "Роль"};
             ViewData["TableData"] = employees.ToArray();

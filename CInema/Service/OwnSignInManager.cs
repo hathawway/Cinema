@@ -16,5 +16,21 @@ namespace Cinema.Service
         {
             return user != null;
         }
+        public void SignOut() 
+        {
+            user = null;
+        }
+        public bool IsAdmin() 
+        {
+            return user.RoleId == 2;
+        }
+        public bool IsOperator()
+        {
+            return user.RoleId == 3;
+        }
+        public bool IsUser()
+        {
+            return user.RoleId == 1;
+        }
     }
 }

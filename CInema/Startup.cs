@@ -3,9 +3,11 @@ using Cinema.Service;
 using Cinema.Service.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using System;
 
@@ -25,8 +27,6 @@ namespace Cinema
         {
             services.AddControllersWithViews();
 
-            services.AddTransient<IUser, UserService>();
-
             services.AddSingleton<ISignIn, OwnSignInManager>();
 
             var login = Configuration.GetConnectionString("OracleDBConnection");
@@ -45,8 +45,6 @@ namespace Cinema
                 options.IdleTimeout = TimeSpan.FromSeconds(3600);
                 options.Cookie.IsEssential = true;
             });
-
-
 
             services.AddHttpContextAccessor();
             services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
