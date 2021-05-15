@@ -32,12 +32,11 @@
                         <tr class="row">
                             <td class="col" style="width:130px">
                                 <div class="container_btn">
-                                    <button class="btn_change">
-                                        <a style="color:#000; text-decoration:none" href="/Dictionary/EmployeeTypes?id=@item.Id">Редактировать</button>
-                                    @using (Html.BeginForm("DeleteEmployeeType", "Dictionary", new { id = item.Id }, FormMethod.Post))
-                                    {
-                                        <button class="btn_change" type="submit">Удалить</button>
-                                    }
+                                        <a class="btn_change" asp-controller="Dictionary" asp-action="EmployeeTypes" asp-route-id="@item.Id">Редактировать</a>
+                                        @using (Html.BeginForm("DeleteEmployeeType", "Dictionary", new { id = item.Id }, FormMethod.Post))
+                                        {
+                                            <button class="btn_change" type="submit">Удалить</button>
+                                        }
                                 </div>
                             </td>
 
