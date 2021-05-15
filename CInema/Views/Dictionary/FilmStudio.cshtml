@@ -33,7 +33,11 @@
                     <td class="col" style="width:130px">
                         <div class="container_btn">
                             <button class="btn_change">Редактировать</button>
-                            <button class="btn_change">Удалить</button>
+                            @using (Html.BeginForm("DeleteFilmStudio", "Dictionary", new { id = item.Id }, FormMethod.Post))
+                            {
+                                <button class="btn_change" type="submit">Удалить</button>
+                            }
+                            
                         </div>
                     </td>
 

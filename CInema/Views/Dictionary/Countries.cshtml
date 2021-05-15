@@ -1,8 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Реестр кинофильмов";
-    WebGrid grid = new WebGrid(HttpContextAccessor, source: ViewData["TableData"] as IEnumerable<CountryViewModel>,
-         defaultSort: "TableName",
-         rowsPerPage: 30);
+
 }
 @model CountryViewModel
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
@@ -37,20 +35,32 @@
                         @foreach (var item in (ViewData["Headers"]) as string[])
                         {
                             <td class="col" style="background:#eee;">@item</td>
-}
+                        }
                     </tr>
                     @if (ViewData["TableData"] != null)
                     {
+                        
+
                         @foreach (var item in (ViewData["TableData"]) as IEnumerable<CountryViewModel>)
                         {
-                            <div class="container_btn">
-                                <button class="btn_change">Редактировать</button>
-                                <button class="btn_change">Удалить</button>
-                            </div>
                             <tr class="row">
+                                <td class="col" style="width:130px">
+                                    <div class="container_btn">
+                                        <button class="btn_change">
+                                            <a style="color:#000; text-decoration:none" href="/Dictionary/Countries?id=@item.Id">Редактировать
+                                        </button>
+                                        @using (Html.BeginForm("DeleteCounty", "Dictionary", new { id = item.Id }, FormMethod.Post))
+                                        {
+                                            <button class="btn_change" type="submit">Удалить</button>
+                                        }
+                                    </div>
+                                </td>
+
                                 <td class="col" contenteditable="true">@item.Name</td>
+
                             </tr>
-}
+                        }
+                        
                     }
 
                 </table>

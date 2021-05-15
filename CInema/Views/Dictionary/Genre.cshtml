@@ -7,7 +7,8 @@
         <form class="column_add" asp-controller="Dictionary" asp-action="AddOrUpdateGenre" method="post">
             <div class="text1">Добавление данных</div>
 
-            <input type="text" name="Name" required placeholder="Жанр" asp-for="Name"class="input">
+            <input asp-for="Id" value="@Model.Id" type="hidden">
+            <input type="text" name="Name" required placeholder="Жанр" asp-for="Name" class="input" value=@Model.Name>
 
             <button class="btn" type="submit">Окей</button>
 
@@ -28,17 +29,29 @@
                     {
                         @foreach (var item in (ViewData["TableData"]) as IEnumerable<GenreViewModel>)
                         {
-                <tr class="row">
-                    <td class="col" style="width:130px">
-                        <div class="container_btn">
-                            <button class="btn_change">Редактировать</button>
-                            <button class="btn_change">Удалить</button>
-                        </div>
-                    </td>
+                            <tr class="row">
+                                <td class="col" style="width:130px">
+                                    <div class="container_btn">
 
-                    <td class="col" contenteditable="true">@item.Name</td>
+                                        @using (Html.BeginForm("Genre", "Dictionary", new { id = item.Id }, FormMethod.Get))
+                                        {
+                                            <button class="btn_change" type="submit">Редактировать</button>
+                                        }
 
-                </tr>
+                                        <!--<button class="btn_change" type="submit">
+        <a style="color:#000; text-decoration:none" href="/Dictionary/Genre?id=">Редактировать
+    </button>-->
+
+                                        @using (Html.BeginForm("DeleteGenre", "Dictionary", new { id = item.Id }, FormMethod.Post))
+                                        {
+                                            <button class="btn_change" type="submit">Удалить</button>
+                                        }
+                                    </div>
+                                </td>
+
+                                <td class="col" contenteditable="true">@item.Name</td>
+
+                            </tr>
                         }
                     }
 

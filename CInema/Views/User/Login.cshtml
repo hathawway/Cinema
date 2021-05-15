@@ -2,33 +2,29 @@
 
 @{ ViewData["Title"] = "Авторизация"; }
 
-<div class="intro">
-    <div class="container">
 
-        <form class="account_container" asp-controller="User" asp-action="Login" method="post">
+    <div class="intro">
+        <div class="container">
 
-            <div class="text1">Авторизация</div>
+            <form class="account_container" asp-controller="User" asp-action="Login" method="post">
 
-            @if (ViewData["ERROR"] != null)
-            {
-                <a> @ViewData["ERROR"] </a>
-            }
+                <div class="text1">Авторизация</div>
 
-            <input name="Login" required placeholder="Имя пользователя" asp-for="Login" class="input">
+                <input name="Login" required placeholder="Имя пользователя" asp-for="Login" class="input">
 
-            <div class="span"><span asp-validation-for="Login"></span></div>
+                <div class="span"><span asp-validation-for="Login"></span></div>
 
-            <input type="password" name="Password" required placeholder="Пароль" asp-for="Password" class="input">
+                <input type="password" name="Password" required placeholder="Пароль" asp-for="Password" class="input">
 
-            <div class="span"><span asp-validation-for="Password"></span></div>
+                <div class="span"><span asp-validation-for="Password"></span></div>
 
-            <button class="btn" type="submit">Войти</button>
+                <button class="btn" type="submit">Войти</butto
 
-            <a class="nav" href="/User/ResetPasswordConfirmation">Забыли пароль?</a>
+                <a class="nav" href="/User/ResetPasswordConfirmation">Забыли пароль?</a>
 
-        </form>
+            </form>
+        </div>
     </div>
-</div>
 
 
 

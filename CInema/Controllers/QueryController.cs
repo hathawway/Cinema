@@ -92,9 +92,10 @@ namespace Cinema.Controllers
 
             var result = response[0][0].Split("haha").ToArray();
             result = result.Take(result.Length - 1).ToArray();
+            ViewData["TableName"] = "Фильмы, в которых режиссер является одновременно " +
+                "исполнителем главной роли";
+            ViewData["Headers"] = new string[] { "Фильм - Режиссер"};
             ViewData["TableData"] = result;
-            ViewData["Headers"] = new string[] { "Фильмы, в которых режиссер является одновременно " +
-                "исполнителем главной роли"};
             return View();
         }
 

@@ -7,6 +7,7 @@
 
         <form class="column_add" asp-controller="Dictionary" asp-action="AddOrUpdateEmployeeTypes" method="post">
             <div class="text1">Добавление данных</div>
+
             <input asp-for="Id" value="@Model.Id" type="hidden">
             <input type="text" name="Name" required placeholder="Должность" asp-for="Name" class="input"
                    value=@Model.Name>
@@ -18,35 +19,37 @@
         <div class="column_see">
             <div class="text1" style="margin-bottom:10px;">@ViewData["TableName"]</div>
 
-                <table class="table">
-                    <tr class="row">
-                        @foreach (var item in (ViewData["Headers"]) as string[])
-                        {
-                            <td class="col" style="background:#eee;">@item</td>
-                        }
-                    </tr>
-                    @if (ViewData["TableData"] != null)
+            <table class="table">
+                <tr class="row">
+                    @foreach (var item in (ViewData["Headers"]) as string[])
                     {
-                        @foreach (var item in (ViewData["TableData"]) as IEnumerable<TypeEmployeeViewModel>)
-                        {
+                        <td class="col" style="background:#eee;">@item</td>
+                    }
+                </tr>
+                @if (ViewData["TableData"] != null)
+                {
+                    @foreach (var item in (ViewData["TableData"]) as IEnumerable<TypeEmployeeViewModel>)
+                    {
                         <tr class="row">
                             <td class="col" style="width:130px">
                                 <div class="container_btn">
-                                        <a class="btn_change" asp-controller="Dictionary" asp-action="EmployeeTypes" asp-route-id="@item.Id">Редактировать</a>
-                                        @using (Html.BeginForm("DeleteEmployeeType", "Dictionary", new { id = item.Id }, FormMethod.Post))
-                                        {
-                                            <button class="btn_change" type="submit">Удалить</button>
-                                        }
+                                    <button class="btn_change" type="submit">
+                                        <a style="color:#000; text-decoration:none" href="/Dictionary/EmployeeTypes?id=">Редактировать
+                                    </button>
+                                    @using (Html.BeginForm("DeleteEmployeeType", "Dictionary", new { id = item.Id }, FormMethod.Post))
+                                    {
+                                        <button class="btn_change" type="submit">Удалить</button>
+                                    }
                                 </div>
                             </td>
 
                             <td class="col" contenteditable="true">@item.Name</td>
 
                         </tr>
-                        }
                     }
+                }
 
-                </table>
+            </table>
         </div>
 
     </div>
