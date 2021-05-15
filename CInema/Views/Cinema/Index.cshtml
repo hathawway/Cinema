@@ -77,8 +77,11 @@
                                     <td class="col" style="width:130px">
                                         <div class="container_btn">
                                             <button class="btn_change">Редактировать</button>
-                                            <button class="btn_change">Удалить</button>
-                                        </div>
+                                            @using (Html.BeginForm("Delete", "Cinema", new { id = item.Id }, FormMethod.Post))
+                                            {
+                                                <button class="btn_change">Удалить</button>
+                                            }
+                                            </div>
                                     </td>
 
                                 <td class="col" contenteditable="true">@item.Name</td>
