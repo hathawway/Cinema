@@ -8,6 +8,7 @@
             <div class="text1">Добавление данных</div>
 
             <input asp-for="Id" value="@Model.Id" type="hidden">
+
             <input type="text" name="Name" required placeholder="Жанр" asp-for="Name" class="input" value=@Model.Name>
 
             <button class="btn" type="submit">Окей</button>
@@ -17,7 +18,7 @@
         <div class="column_see">
             <div class="text1" style="margin-bottom:10px;">@ViewData["TableName"]</div>
 
-            <form class="container_table" action="/" method="post">
+            <div class="container_table">
                 <table class="table">
                     <tr class="row">
                         @foreach (var item in (ViewData["Headers"]) as string[])
@@ -33,14 +34,8 @@
                                 <td class="col" style="width:130px">
                                     <div class="container_btn">
 
-                                        @using (Html.BeginForm("Genre", "Dictionary", new { id = item.Id }, FormMethod.Get))
-                                        {
-                                            <button class="btn_change" type="submit">Редактировать</button>
-                                        }
+                                        <button class="btn_change" type="submit"><a style="color:#000000; text-decoration:none;" href="/Dictionary/Genre?id=@item.Id">Редактировать</a></button>
 
-                                        <!--<button class="btn_change" type="submit">
-        <a style="color:#000; text-decoration:none" href="/Dictionary/Genre?id=">Редактировать
-    </button>-->
 
                                         @using (Html.BeginForm("DeleteGenre", "Dictionary", new { id = item.Id }, FormMethod.Post))
                                         {
@@ -56,7 +51,7 @@
                     }
 
                 </table>
-            </form>
+            </div>
         </div>
 
     </div>

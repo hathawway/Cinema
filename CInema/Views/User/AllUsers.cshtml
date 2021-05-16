@@ -41,12 +41,7 @@
                         @foreach (var item in (ViewData["TableData"]) as UserViewModel[])
                         {
                             <tr class="row">
-                                    <td class="col" style="width:130px">
-                                        <div class="container_btn">
-                                        <button class="btn_change">Редактировать</button>
-                                        <button class="btn_change">Удалить</button>
-                                    </div>
-                                </td>
+
                                 <td class="col" contenteditable="true">@item.Login</td>
                                 <td class="col" contenteditable="true">@item.Password</td>
                                 <td class="col" contenteditable="true">@item.Role</td>

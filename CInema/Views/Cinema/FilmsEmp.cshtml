@@ -5,22 +5,41 @@
 <div class="container">
     <div class="main_container">
 
-        <form class="column_add" action="/" method="post">
+        <form class="column_add">
             <div class="text1">Добавление данных</div>
-            
-            <select id="FilmName" name="FilmName">
-                <option value="1">Фильм</option>
-            </select>           
 
-            <select id="EmployeeName" name="EmployeeName">
-                <option value="1">Участник</option>
-            </select>
-          
-            <select id="EmployeeType" name="EmployeeType">
-                <option value="1">Что он там делал</option>
+            <select class="select" asp-for="FilmName" type="text" title="Film">
+                {
+                @foreach (var item in (ViewData["Films"]) as IEnumerable<FilmViewModel>)
+                {
+                    <option value=@item.Id>@item.Name</option>
+                }
+
+                }
             </select>
 
-         
+            <select class="select" asp-for="EmployeeName" type="text" title="EmployeeName">
+                {
+                @foreach (var item in (ViewData["Employees"]) as IEnumerable<EmployeeViewModel>)
+                {
+                    <option value=@item.Kod>@item.ThirdName</option>
+                }
+
+                }
+            </select>
+
+
+            <select class="select" asp-for="EmployeeType" type="text" title="EmployeeType">
+                {
+                @foreach (var item in (ViewData["EmployeesType"]) as IEnumerable<TypeEmployeeViewModel>)
+                {
+                    <option value=@item.Id>@item.Name</option>
+                    }
+
+                    }
+            </select>
+
+
 
             <button class="btn" type="submit">Окей</button>
 
@@ -29,7 +48,7 @@
         <div class="column_see">
             <div class="text1" style="margin-bottom:10px;">@ViewData["TableName"]</div>
 
-            <form class="container_table" action="/" method="post">
+            <div class="container_table">
                 <table class="table">
                     <tr class="row">
                         @foreach (var item in (ViewData["Headers"]) as string[])
@@ -44,12 +63,16 @@
                         <tr class="row">
                             <td class="col" style="width:130px">
                                 <div class="container_btn">
-                                    <button class="btn_change">Редактировать</button>
+
+                                    <!--<button class="btn_change" type="submit"><a style="color:#000000; text-decoration:none;" href="/Cinema/FilmsEmp?id=">Редактировать</a></button>
+
+    -->
+
                                     @using (Html.BeginForm("Delete", "Cinema", new { id = item.FilmName }, FormMethod.Post))
                                     {
-                                        <button class="btn_change">Удалить</button>
+                                        <button class="btn_change" type="submit">Удалить</button>
                                     }
-                                    </div>
+                                </div>
                             </td>
 
                             <td class="col" contenteditable="true">@item.FilmName</td>
@@ -60,7 +83,7 @@
 
 
                     </table>
-            </form>
+            </div>
         </div>
 
     </div>

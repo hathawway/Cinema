@@ -8,7 +8,8 @@
         <form class="column_add" asp-controller="Dictionary" asp-action="AddOrUpdateEmployeeTypes" method="post">
             <div class="text1">Добавление данных</div>
 
-            <input asp-for="Id" value="@Model.Id" type="hidden">
+            <input type="hidden" asp-for="Id" value=@Model.Id>
+
             <input type="text" name="Name" required placeholder="Должность" asp-for="Name" class="input"
                    value=@Model.Name>
 
@@ -33,9 +34,8 @@
                         <tr class="row">
                             <td class="col" style="width:130px">
                                 <div class="container_btn">
-                                    <button class="btn_change" type="submit">
-                                        <a style="color:#000; text-decoration:none" href="/Dictionary/EmployeeTypes?id=">Редактировать
-                                    </button>
+                                    <button class="btn_change" type="submit"><a style="color:#000000; text-decoration:none;" href="/Dictionary/EmployeeTypes?id=@item.Id">Редактировать</a></button>
+
                                     @using (Html.BeginForm("DeleteEmployeeType", "Dictionary", new { id = item.Id }, FormMethod.Post))
                                     {
                                         <button class="btn_change" type="submit">Удалить</button>

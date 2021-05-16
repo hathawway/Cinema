@@ -120,7 +120,7 @@ namespace Cinema.Controllers
             });
 
             ViewData["TableName"] = "Сотрудники";
-            ViewData["Headers"] = new string[] { "", "Логин", "Пароль", "Роль"};
+            ViewData["Headers"] = new string[] {"Логин", "Пароль", "Роль"};
             ViewData["TableData"] = employees.ToArray();
             return View();
         }
