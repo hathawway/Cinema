@@ -309,14 +309,42 @@ namespace Cinema.Controllers
             return RedirectToAction("FilmsEmp", "Cinema");
         }
         #endregion
-        [HttpGet]
-        public IActionResult SessionFilms()
-        {
 
+        #region SessionFilms
+        [HttpGet]
+        public IActionResult SessionFilms(long id)
+        {
+            SessionFilmsViewModel defaultModel = new();
+            if (id != 0) {
+                defaultModel = _context.SessionFilms.
+                                        Where(x => x.Kod == id).
+                                        Select(x => new SessionFilmsViewModel
+                                        {
+                                            Kod = x.Kod,
+                                            Film = _context.Films.
+                                                        Where(f => f.Kod == x.FilmKod).
+                                                        Select(f => new IdName()
+                                                        {
+                                                            Id = f.Kod,
+                                                            Name = f.Name,
+                                                        }).First(),
+                                            FreeSeatsAmount = x.FreePlaces,
+                                            FilmStart = x.FilmStartDate,
+                                            SeatsAmount = x.Places,
+                                            TicketPrice = x.TicketPrice,
+                                            ZalNumber = x.Hall,
+                                        }).
+                                        First();
+            }
             var filmSession = _context.SessionFilms.Select(x => new SessionFilmsViewModel
             {
                 Kod = x.Kod,
-                FilmName = _context.Films.First(f => f.Kod == x.FilmKod).Name,
+                Film = _context.Films.Where(f => f.Kod == x.FilmKod).
+                                        Select(f => new IdName()
+                                        {
+                                            Id = f.Kod,
+                                            Name = f.Name,
+                                        }).First(),
                 FilmStart = x.FilmStartDate,
                 FreeSeatsAmount = x.FreePlaces,
                 SeatsAmount = x.Places,
@@ -331,8 +359,25 @@ namespace Cinema.Controllers
                 Id = x.Kod,
                 Name = x.Name
             }).AsEnumerable();
-            return View();
+            return View(defaultModel);
         }
+        public IActionResult AddOrReplaceSessionFilms(SessionFilmsViewModel model)
+        {
+            if (model.Kod != 0)
+            {
+
+            }
+
+            return RedirectToAction("SessionFilms", "Cinema");
+        }
+        [HttpPost]
+        public IActionResult DeleteSessionFilms(long id)
+        {
+            _context.SessionFilms.Remove(_context.SessionFilms.First(x => x.Kod == id));
+            _context.SaveChanges();
+            return RedirectToAction("SessionFilms", "Cinema");
+        }
+        #endregion
 
         [HttpGet]
         public IActionResult FormReport() 
