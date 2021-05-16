@@ -42,7 +42,7 @@ namespace Cinema.Controllers
                 var user = _context.Users.FirstOrDefault(x => x.Login == model.Login);
                 if (user == null)
                 {
-                    ViewData["ERROR"] = "Ошикба при попытке войти! Проверьте логин/пароль";
+                    ViewData["ERROR"] = "Ошибка при попытке войти! Проверьте логин/пароль";
                     return View(model);
                 }
                 _signInManager.SignIn(user);

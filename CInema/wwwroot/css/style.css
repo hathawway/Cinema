@@ -128,7 +128,7 @@ body {
 
 .account_container {
     width: 400px;
-    height: 400px;
+    height: 430px;
     background-color: #ffffff;
     border-bottom: 2px solid #fff;
     border-top: 2px solid #fff;
@@ -420,7 +420,12 @@ body {
 /*Span*/
 
 .span {
-    font-size: 10px;
+    font-size: 15px;
+    color:#000;
+    font-weight:700;
+    vertical-align:central;
+    
+    justify-content:center;
 }
 
 
