@@ -98,7 +98,7 @@ namespace Cinema.Controllers
         public IActionResult Logout()
         {
             _signInManager.SignOut();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "User");
         }
 
         /// <summary>
