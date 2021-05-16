@@ -1,12 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Cinema.Domain.Models.Film
 {
     [Table("FILMSEMP")]
-    [Keyless]
     public class FilmsEmp
     {
+        [Column("KOD")]
+        [Key]
+        public long Kod { get; set; }
         [Column("KOD_FILM")]
         public long FilmKod { get; set; }
 

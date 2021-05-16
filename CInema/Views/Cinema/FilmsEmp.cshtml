@@ -5,42 +5,55 @@
 <div class="container">
     <div class="main_container">
 
-        <form class="column_add">
+        <form class="column_add" asp-controller="Cinema" asp-action="AddOrReplaceFilmsEmps">
             <div class="text1">Добавление данных</div>
 
-            <select class="select" asp-for="FilmName" type="text" title="Film">
-                {
+            <input type="hidden" asp-for="Kod" value=@Model.Kod />
+
+            <select class="select" asp-for="Film.Id" type="text" title="Film">
                 @foreach (var item in (ViewData["Films"]) as IEnumerable<FilmViewModel>)
                 {
-                    <option value=@item.Id>@item.Name</option>
+                    @if (item.Id == Model.Film.Id)
+                    {
+                        <option value=@item.Id selected="selected">@item.Name</option>
+                    }
+                    else
+                    {
+                        <option value=@item.Id>@item.Name</option>
+                    }
                 }
 
-                }
             </select>
 
-            <select class="select" asp-for="EmployeeName" type="text" title="EmployeeName">
-                {
+            <select class="select" asp-for="Employee.Id" type="text" title="EmployeeName">
                 @foreach (var item in (ViewData["Employees"]) as IEnumerable<EmployeeViewModel>)
                 {
-                    <option value=@item.Kod>@item.ThirdName</option>
+                    @if (item.Kod == Model.Employee.Id)
+                    {
+                        <option value=@item.Kod selected="selected">@item.ThirdName</option>
+                    }
+                    else
+                    {
+                        <option value=@item.Kod>@item.ThirdName</option>
+                    }
                 }
 
-                }
             </select>
 
-
-            <select class="select" asp-for="EmployeeType" type="text" title="EmployeeType">
-                {
+            <select class="select" asp-for="EmployeeType.Id" type="text" title="EmployeeType">
                 @foreach (var item in (ViewData["EmployeesType"]) as IEnumerable<TypeEmployeeViewModel>)
                 {
-                    <option value=@item.Id>@item.Name</option>
+                    @if (item.Id == Model.EmployeeType.Id)
+                    {
+                        <option value=@item.Id selected="selected">@item.Name</option>
                     }
+                    else
+                    {
+                        <option value=@item.Id>@item.Name</option>
+                    }
+                }
 
-                    }
             </select>
-
-
-
             <button class="btn" type="submit">Окей</button>
 
         </form>
@@ -64,20 +77,20 @@
                             <td class="col" style="width:130px">
                                 <div class="container_btn">
 
-                                    <!--<button class="btn_change" type="submit"><a style="color:#000000; text-decoration:none;" href="/Cinema/FilmsEmp?id=">Редактировать</a></button>
+                                    <button class="btn_change" type="submit">
+                                        <a style="color:#000000; text-decoration:none;" href="/Cinema/FilmsEmp?id=@item.Kod">Редактировать</a>
+                                    </button>
 
-    -->
-
-                                    @using (Html.BeginForm("Delete", "Cinema", new { id = item.FilmName }, FormMethod.Post))
+                                    @using (Html.BeginForm("DeleteFilmsEmp", "Cinema", new { id = item.Kod }, FormMethod.Post))
                                     {
                                         <button class="btn_change" type="submit">Удалить</button>
                                     }
                                 </div>
                             </td>
 
-                            <td class="col" contenteditable="true">@item.FilmName</td>
-                            <td class="col" contenteditable="true">@item.EmployeeName</td>
-                            <td class="col" contenteditable="true">@item.EmployeeType</td>
+                            <td class="col" contenteditable="true">@item.Film.Name</td>
+                            <td class="col" contenteditable="true">@item.Employee.Name</td>
+                            <td class="col" contenteditable="true">@item.EmployeeType.Name</td>
                         </tr>
                      }
 

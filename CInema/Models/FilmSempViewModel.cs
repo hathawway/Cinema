@@ -7,11 +7,16 @@ namespace Cinema.Models
 {
     public class FilmsEmpViewModel
     {
-        public string FilmName { get; set; }
-        public string EmployeeName { get; set; }
-        /*
-         * Должность
-         */
-        public string EmployeeType { get; set; }
+        public long Kod { get; set; }
+        public IdName Film { get; set; }
+        public IdName Employee { get; set; }
+        public IdName EmployeeType { get; set; }
+
+        public FilmsEmpViewModel()
+        {
+            Film = new();
+            Employee = new();
+            EmployeeType = new();
+        }
     }
 }
