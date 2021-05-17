@@ -4,32 +4,36 @@
 
 <div class="container">
     <div class="main_container">
-            <form class="column_add" asp-action="EditUser" asp-controller="User">
-                <div class="text1">Добавление данных</div>
+        <form class="column_add" asp-action="EditUser" asp-controller="User">
+            <div class="text1">Добавление данных</div>
 
-                <input value="@Model.Kod" asp-for="Kod" type="hidden"/>
+            <input value="@Model.Kod" type="hidden" />
 
-                <input type="text" 
-                       asp-for="Login"
-                       name="Login" required placeholder="Логин" class="input">
+            <input type="text"
+                   asp-for="Login"
+                   name="Login" required placeholder="Логин" class="input">
 
-                <input type="text" 
-                       asp-for="Password"
-                       name="Password" required placeholder="Пароль" class="input">
+            <div class="span"><span style="font-size:15px; margin-left:20px; margin-top:20px; font-weight:700;" asp-validation-for="Login"></span></div>
 
-                <select class="select" asp-for="Role.Id" type="text" title="Role">
-                    {
-                    @foreach (var item in (ViewData["Roles"]) as IEnumerable<IdName>)
-                    {
-                        <option value=@item.Id>@item.Name</option>
-                    }
+            <input type="text"
+                   asp-for="Password"
+                   name="Password" required placeholder="Пароль" class="input">
 
-                    }
-                </select>
+            <div class="span"><span style="font-size:15px; margin-left:20px; margin-top:20px; font-weight:700;" asp-validation-for="Password"></span></div>
 
-                <button class="btn" type="submit">Окей</button>
+            <select class="select" asp-for="Role.Id" type="text" title="Role">
+                {
+                @foreach (var item in (ViewData["TableData"]) as IEnumerable<UserViewModel>)
+                {
+                    <option value=@item.Role.Id>@item.Role.Name</option>
+                }
 
-            </form>
+                }
+            </select>
+
+            <button class="btn" type="submit">Окей</button>
+
+        </form>
         <div class="column_see">
             <div class="text1">@ViewData["TableName"]</div>
             <div class="container_table">
@@ -50,9 +54,9 @@
                                         <button class="btn_change" type="submit"><a style="color:#000000; text-decoration:none;" href="/User/AllUsers?id=@item.Kod">Редактировать</a></button>
                                     </div>
                                 </td>
-                                <td class="col" contenteditable="true">@item.Login</td>
-                                <td class="col" contenteditable="true">@item.Password</td>
-                                <td class="col" contenteditable="true">@item.Role.Name</td>
+                                <td class="col">@item.Login</td>
+                                <td class="col">@item.Password</td>
+                                <td class="col">@item.Role.Name</td>
                             </tr>
                         }
                     }

@@ -21,9 +21,9 @@
                         @foreach (var item in (ViewData["TableData"]) as IEnumerable<FilmViewModel>)
                         {
                             <tr class="row">
-                                <td class="col" contenteditable="true">@item.Name</td>
-                                <td class="col" contenteditable="true">@item.StartDate.ToShortDateString()</td>
-                                <td class="col" contenteditable="true">@item.Country.Name</td>
+                                <td class="col">@item.Name</td>
+                                <td class="col">@item.StartDate.ToShortDateString()</td>
+                                <td class="col">@item.Country.Name</td>
 
                             </tr>
                         }

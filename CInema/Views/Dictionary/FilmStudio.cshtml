@@ -12,6 +12,8 @@
 
             <input type="text" name="Name" required placeholder="Киностудия" asp-for="Name" class="input">
 
+            <div class="span"><span style="font-size:15px; margin-left:20px; margin-top:20px; font-weight:700;" asp-validation-for="Name"></span></div>
+
             <button class="btn" type="submit">Окей</button>
 
         </form>
@@ -45,7 +47,7 @@
                         </div>
                     </td>
 
-                    <td class="col" contenteditable="true">@item.Name</td>
+                    <td class="col">@item.Name</td>
 
                 </tr>
                         }

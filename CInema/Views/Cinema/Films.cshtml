@@ -12,6 +12,8 @@
 
                 <input type="text" name="Name" value=@Model.Name required placeholder="Название фильма" class="input">
 
+                <div class="span"><span style="font-size:15px; margin-left:20px; margin-top:20px; font-weight:700;" asp-validation-for="Name"></span></div>
+
                 <select class="select" asp-for="Studio.Id" type="text" title="Studio">
                     @foreach (var item in (ViewData["Studio"]) as IEnumerable<FilmStudioViewModel>)
                     {
@@ -27,9 +29,13 @@
                     }
                 </select>
 
+
+
                 <input type="date" name="StartDate"
                        asp-for="StartDate"
                        value=@Model.StartDate.ToString("yyyy-MM-dd") placeholder="Дата начала" class="input">
+
+                <div class="span"><span style="font-size:15px; margin-left:20px; margin-top:20px; font-weight:700;" asp-validation-for="StartDate"></span></div>
 
                 <select class="select" asp-for="Country.Id" type="text" title="Country">
                     {
@@ -51,6 +57,8 @@
                 <input type="number" min="1"
                        asp-for="TimeDuration" value=@Model.TimeDuration
                        name="TimeDuration" placeholder="Продолжительность" class="input">
+
+                <div class="span"><span style="font-size:15px; margin-left:20px; margin-top:20px; font-weight:700;" asp-validation-for="TimeDuration"></span></div>
 
                 <select class="select" asp-for="Genre.Id" type="text" title="Genre">
                     {
@@ -86,14 +94,16 @@
                     }
                 </select>
 
+
+
+                <button class="btn" type="submit">Окей</button>
+
                 @if (ViewData["ERROR"] != null)
                 {
 
-                    <div class="span">@ViewData["ERROR"]</div>
+                    <div class="span"><span style="font-size:15px; margin-left:30px; margin-top:10px; font-weight:700;">@ViewData["ERROR"]</span></div>
 
                 }
-
-                <button class="btn" type="submit">Окей</button>
 
             </form>
 
@@ -125,14 +135,14 @@
                                     </div>
                                 </td>
 
-                                <td class="col" contenteditable="true">@item.Name</td>
-                                <td class="col" contenteditable="true">@item.Studio.Name</td>
-                                <td class="col" contenteditable="true">@item.StartDate.ToShortDateString()</td>
+                                <td class="col">@item.Name</td>
+                                <td class="col">@item.Studio.Name</td>
+                                <td class="col">@item.StartDate.ToShortDateString()</td>
 
-                                <td class="col" contenteditable="true">@item.Country.Name</td>
-                                <td class="col" contenteditable="true">@item.TimeDuration</td>
-                                <td class="col" contenteditable="true">@item.Genre.Name</td>
-                                <td class="col" contenteditable="true">@item.Rating.Name</td>
+                                <td class="col">@item.Country.Name</td>
+                                <td class="col">@item.TimeDuration</td>
+                                <td class="col">@item.Genre.Name</td>
+                                <td class="col">@item.Rating.Name</td>
 
                                 </tr>
                             }                       

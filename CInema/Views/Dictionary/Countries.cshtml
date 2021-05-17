@@ -9,11 +9,12 @@
         <form class="column_add" asp-controller="Dictionary" asp-action="AddOrUpdateCountries" method="post">
             <div class="text1">Добавление данных</div>
 
-                <input type="hidden" asp-for="Id" value=@Model.Id>
+            <input type="hidden" asp-for="Id" value=@Model.Id>
 
-                <input type="text" name="Name" required placeholder="Страна" asp-for="Name"
-                       value=@Model.Name
-                       class="input">
+            <input type="text" name="Name" required placeholder="Страна" asp-for="Name"
+                   value=@Model.Name
+                   class="input">
+            <div class="span"><span style="font-size:15px; margin-left:20px; margin-top:20px; font-weight:700;" asp-validation-for="Name"></span></div>
 
             <button class="btn" type="submit">Окей</button>
 
@@ -49,7 +50,7 @@
                                     </div>
                                 </td>
 
-                                <td class="col" contenteditable="true">@item.Name</td>
+                                <td class="col">@item.Name</td>
 
                             </tr>
                         }

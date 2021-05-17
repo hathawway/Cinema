@@ -26,25 +26,40 @@
                 }
             </select>
 
-            <input type="datetime-local" name="FilmStart" 
+            <input type="datetime-local" name="FilmStart"
                    asp-for="FilmStart" value=@Model.FilmStartTime()
-                       required placeholder="Дата начала" class="input">
+                   required placeholder="Дата начала" class="input">
 
-            <input type="number" min="1" name="ZalNumber" 
+            <div class="span"><span style="font-size:15px; margin-left:20px; margin-top:20px; font-weight:700;" asp-validation-for="FilmStart"></span></div>
+
+
+            <input type="number" min="1" name="ZalNumber"
                    asp-for="ZalNumber" value=@Model.ZalNumber
                    required placeholder="Зал" class="input">
+
+            <div class="span"><span style="font-size:15px; margin-left:20px; margin-top:20px; font-weight:700;" asp-validation-for="ZalNumber"></span></div>
+
 
             <input type="number" min="1" name="SeatsAmount"
                    asp-for="SeatsAmount" value=@Model.SeatsAmount
                    required placeholder="Кол-во мест в зале" class="input">
 
+            <div class="span"><span style="font-size:15px; margin-left:20px; margin-top:20px; font-weight:700;" asp-validation-for="SeatsAmount"></span></div>
+
+
             <input type="number" step="0.01" min="0" name="TicketPrice"
                    asp-for="TicketPrice" value=@Model.TicketPrice
                    required placeholder="Цена билета 0,00" class="input">
 
+            <div class="span"><span style="font-size:15px; margin-left:20px; margin-top:20px; font-weight:700;" asp-validation-for="TicketPrice"></span></div>
+
+
             <input type="number" min="0" name="FreeSeatsAmount"
                    asp-for="FreeSeatsAmount" value=@Model.FreeSeatsAmount
                    required placeholder="Кол-во свободных мест в зале" class="input">
+
+            <div class="span"><span style="font-size:15px; margin-left:20px; margin-top:20px; font-weight:700;" asp-validation-for="FreeSeatsAmount"></span></div>
+
 
 
             <button class="btn" type="submit">Окей</button>
@@ -80,12 +95,12 @@
                                 </div>
                             </td>
 
-                            <td class="col" contenteditable="true">@item.Film.Name</td>
-                            <td class="col" contenteditable="true">@item.FilmStart</td>
-                            <td class="col" contenteditable="true">@item.ZalNumber</td>
-                            <td class="col" contenteditable="true">@item.SeatsAmount</td>
-                            <td class="col" contenteditable="true">@item.TicketPrice</td>
-                            <td class="col" contenteditable="true">@item.FreeSeatsAmount</td>
+                            <td class="col">@item.Film.Name</td>
+                            <td class="col">@item.FilmStart</td>
+                            <td class="col">@item.ZalNumber</td>
+                            <td class="col">@item.SeatsAmount</td>
+                            <td class="col">@item.TicketPrice</td>
+                            <td class="col">@item.FreeSeatsAmount</td>
                         </tr>
                         }
 

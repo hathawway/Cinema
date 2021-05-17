@@ -19,9 +19,9 @@
                         @foreach (var item in (ViewData["TableData"]) as BoxOfficeViewModel[])
                         {
                 <tr class="row">
-                    <td class="col" contenteditable="true">@item.Film</td>
-                    <td class="col" contenteditable="true">@item.TotalSum</td>
-                    <td class="col" contenteditable="true">@item.Date.ToShortDateString()</td>
+                    <td class="col">@item.Film</td>
+                    <td class="col">@item.TotalSum</td>
+                    <td class="col">@item.Date.ToShortDateString()</td>
                 </tr>
                         }
                     }

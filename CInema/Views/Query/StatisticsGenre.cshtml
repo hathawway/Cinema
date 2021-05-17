@@ -21,9 +21,9 @@
                         @foreach (var item in (ViewData["TableData"]) as IEnumerable<StatOnGenre>)
                         {
                             <tr class="row">
-                                <td class="col" contenteditable="true">@item.Genre</td>
-                                <td class="col" contenteditable="true">@item.RusAmount</td>
-                                <td class="col" contenteditable="true">@item.ForreignAmount</td>
+                                <td class="col">@item.Genre</td>
+                                <td class="col">@item.RusAmount</td>
+                                <td class="col">@item.ForreignAmount</td>
 
                             </tr>
                         }
