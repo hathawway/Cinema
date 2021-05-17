@@ -382,18 +382,35 @@ namespace Cinema.Controllers
         [HttpGet]
         public IActionResult FormReport() 
         {
-            var directorsToFilms = _context.FilmsEmps.
-                                            Where(e => e.TypeEmployeeKod == 2).
-                                            Select(e => e).ToArray();
             var values = _context.Films.Select(x => new
             {
                 Country = x.CountryKod,
+                Director = _context.FilmsEmps.
+                                        Where(fe => fe.FilmKod == x.Kod && fe.TypeEmployeeKod == 2).
+                                        Select(fe => fe.EmployeeKod).ToArray(),
                 Film = x.Name,
+                Rating = x.RatingKod,
                 Tickets = _context.BoxOffices.
                                     Where(bo => bo.KodFilm == x.Kod).
                                     Select(bo => bo.TotalSum).Sum()
             }).ToArray();
 
+            var itog = values.GroupBy(x => new { x.Country, x.Director}).Select(x => 
+                new 
+                {
+                    CountryKod = x.Key.Country,
+                    DirectorKod = x.Key.Director,
+                    Films = x.Select(f => new {f.Film, f.Rating, f.Tickets }).OrderBy(f => f.Rating)
+                }
+            ).ToArray();
+            var itog_2 = itog.Select(x => 
+                    new
+                    {
+                      Country = _context.Countries.First(c => c.Kod == x.CountryKod),
+                      Director = _context.Employees.First(e => x.DirectorKod.Contains(e.Kod)),
+                      FilmName = x.Films.Select(f => f.Film).ToArray(),
+                      Tickets = x.Films.First().Tickets,
+                    }).ToArray();
             string pathDocument = AppDomain.CurrentDomain.BaseDirectory + "example.docx";
 
             // создаём документ

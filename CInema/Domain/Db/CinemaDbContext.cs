@@ -29,5 +29,10 @@ namespace Cinema.Domain.Db
         public DbSet<User> Users { get; set; }
         public DbSet<TypeEmployee> EmployeeTypes { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+        }
+
     }
 }

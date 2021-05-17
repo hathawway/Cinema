@@ -44,12 +44,39 @@ namespace Cinema.Controllers
             var films = _context.Films.Where(x => x.StartDate.Year == 2021 && x.CountryKod == russiaCode).Select(x => new FilmViewModel
             {
                 Id = x.Kod,
-                Country = _context.Countries.First(c => c.Kod == x.CountryKod).Name,
-                Genre = _context.Genres.First(g => g.Kod == x.GenreKod).Name,
+                Country = _context.Countries.
+                                        Where(c => c.Kod == x.CountryKod).
+                                        Select(c => new IdName()
+                                        {
+                                            Id = c.Kod,
+                                            Name = c.Name
+                                        }).First(),
+                Genre = _context.Genres.
+                                        Where(g => g.Kod == x.GenreKod).
+                                        Select(g => new IdName()
+                                        {
+                                            Id = g.Kod,
+                                            Name = g.Name
+                                        }).
+                                        First(),
                 Name = x.Name,
-                Rating = _context.Ratings.First(r => r.Kod == x.RatingKod).Name,
+                Rating = _context.Ratings.
+                                        Where(r => r.Kod == x.RatingKod).
+                                        Select(r => new IdName()
+                                        {
+                                            Id = r.Kod,
+                                            Name = r.Name
+                                        }).
+                                        First(),
                 StartDate = x.StartDate,
-                Studio = _context.FilmStudios.First(s => s.Kod == x.StudioKod).Name,
+                Studio = _context.FilmStudios.
+                                        Where(s => s.Kod == x.StudioKod).
+                                        Select(s => new IdName()
+                                        {
+                                            Id = s.Kod,
+                                            Name = s.Name
+                                        }).
+                                        First(),
                 TimeDuration = x.TimeDuration
             }).AsEnumerable();
             ViewData["TableName"] = "Список фильмов, вышедших в текущем году в России";
