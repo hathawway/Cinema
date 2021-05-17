@@ -4,9 +4,11 @@ using Cinema.Models;
 using Cinema.Models.Common;
 using Cinema.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Drawing;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Xceed.Document.NET;
 using Xceed.Words.NET;
 
@@ -171,7 +173,18 @@ namespace Cinema.Controllers
                     TimeDuration = model.TimeDuration
                 });
             }
-            _context.SaveChanges();
+            try
+            {
+                _context.SaveChanges();
+            } catch(DbUpdateException e)
+            {
+                if(e.InnerException.ToString().Contains("KINO.TRIGGER_DATE"))
+                {
+                    ViewData["ERROR"] = "Дата введена больше текущей";
+                }
+            }
+             
+
             return RedirectToAction("Films", "Cinema");
         }
         [HttpPost]
