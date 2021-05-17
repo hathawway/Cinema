@@ -333,8 +333,7 @@ namespace Cinema.Controllers
                                             SeatsAmount = x.Places,
                                             TicketPrice = x.TicketPrice,
                                             ZalNumber = x.Hall,
-                                        }).
-                                        First();
+                                        }).First();
             }
             var filmSession = _context.SessionFilms.Select(x => new SessionFilmsViewModel
             {

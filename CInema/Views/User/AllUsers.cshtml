@@ -4,31 +4,35 @@
 
 <div class="container">
     <div class="main_container">
+            <form class="column_add" asp-action="EditUser" asp-controller="User">
+                <div class="text1">Добавление данных</div>
 
-        <form class="column_add" action="/" method="post">
-            <div class="text1">Добавление данных</div>
+                <input value="@Model.Kod" type="hidden"/>
 
-            <input type="text" name="Login" required placeholder="Логин" class="input">
+                <input type="text" 
+                       asp-for="Login"
+                       name="Login" required placeholder="Логин" class="input">
 
-            <input type="text" name="Password" required placeholder="Пароль" class="input">
+                <input type="text" 
+                       asp-for="Password"
+                       name="Password" required placeholder="Пароль" class="input">
 
-            <select class="select" asp-for="Role" type="text" title="Role">
-                {
-                @foreach (var item in (ViewData["TableData"]) as IEnumerable<UserViewModel>)
-                {
-                    <option value=@item.Login>@item.Login</option>
-                }
+                <select class="select" asp-for="Role.Id" type="text" title="Role">
+                    {
+                    @foreach (var item in (ViewData["TableData"]) as IEnumerable<UserViewModel>)
+                    {
+                        <option value=@item.Role.Id>@item.Role.Name</option>
+                    }
 
-                }
-            </select>
+                    }
+                </select>
 
-            <button class="btn" type="submit">Окей</button>
+                <button class="btn" type="submit">Окей</button>
 
-        </form>
-
+            </form>
         <div class="column_see">
             <div class="text1">@ViewData["TableName"]</div>
-            <form class="container_table" action="/" method="post">
+            <div class="container_table">
                 <table class="table">
                     <tr class="row">
                         @foreach (var item in (ViewData["Headers"]) as string[])
@@ -41,16 +45,20 @@
                         @foreach (var item in (ViewData["TableData"]) as UserViewModel[])
                         {
                             <tr class="row">
-
+                                <td class="col" style="width:130px">
+                                    <div class="container_btn">
+                                        <button class="btn_change" type="submit"><a style="color:#000000; text-decoration:none;" href="/User/AllUsers?id=@item.Kod">Редактировать</a></button>
+                                    </div>
+                                </td>
                                 <td class="col" contenteditable="true">@item.Login</td>
                                 <td class="col" contenteditable="true">@item.Password</td>
-                                <td class="col" contenteditable="true">@item.Role</td>
+                                <td class="col" contenteditable="true">@item.Role.Id</td>
                             </tr>
                         }
                     }
 
                 </table>
-            </form>
+            </div>
         </div>
 
     </div>

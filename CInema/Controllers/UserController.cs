@@ -1,5 +1,6 @@
 ﻿using Cinema.Domain.Db;
 using Cinema.Domain.Models.Users;
+using Cinema.Models;
 using Cinema.Models.User;
 using Cinema.Service.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -110,18 +111,54 @@ namespace Cinema.Controllers
             return View();
         }
 
-        public IActionResult AllUsers()
+        public IActionResult AllUsers(long id)
         {
+            UserViewModel defaultMode = new();
+            if (id != 0)
+            {
+                defaultMode = _context.Users.Where(x => x.Kod == id).
+                    Select(x => new UserViewModel() 
+                    {
+                        Login = x.Login,
+                        Password = x.Password,
+                        Role = _context.Roles.Where(u => u.Kod == x.RoleId).
+                                              Select(u => new IdName()
+                                              {
+                                                Id = u.Kod,
+                                                Name = u.Name,
+                                              }).First()
+                    }).First();
+            }
+
             var employees = _context.Users.Select(e => new UserViewModel
             {
                 Login = e.Login,
                 Password = e.Password,
-                Role = _context.Roles.First(u => u.Kod == e.RoleId).Name
+                Role = _context.Roles.Where(u => u.Kod == e.RoleId)
+                                     .Select(u => new IdName()
+                                     {
+                                         Id = u.Kod,
+                                         Name = u.Name,
+                                     }).First()
             });
 
             ViewData["TableName"] = "Сотрудники";
-            ViewData["Headers"] = new string[] {"Логин", "Пароль", "Роль"};
+            ViewData["Headers"] = new string[] {"","Логин", "Пароль", "Роль"};
             ViewData["TableData"] = employees.ToArray();
+            return View(defaultMode);
+        }
+
+        public IActionResult EditUser(UserViewModel model)
+        {
+            if (model.Kod != 0)
+            {
+                var toEdit = _context.Users.First(x => x.Kod == model.Kod);
+                toEdit.Login = model.Login;
+                toEdit.Password = model.Password;
+                toEdit.RoleId = model.Role.Id;
+            }
+
+            _context.SaveChanges();
             return View();
         }
     }
