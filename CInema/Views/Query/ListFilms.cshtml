@@ -22,8 +22,8 @@
                         {
                             <tr class="row">
                                 <td class="col" contenteditable="true">@item.Name</td>
-                                <td class="col" contenteditable="true">@item.StartDate</td>
-                                <td class="col" contenteditable="true">@item.Country</td>
+                                <td class="col" contenteditable="true">@item.StartDate.ToShortDateString()</td>
+                                <td class="col" contenteditable="true">@item.Country.Name</td>
 
                             </tr>
                         }

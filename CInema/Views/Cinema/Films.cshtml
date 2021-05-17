@@ -8,7 +8,7 @@
             <form class="column_add" asp-action="AddOrReplaceFilms" asp-controller="Cinema">
                 <div class="text1">Добавление данных</div>
 
-                <input type="hidden" asp-for="Id" value=@Model.Id/>
+                <input type="hidden" asp-for="Id" value=@Model.Id />
 
                 <input type="text" name="Name" value=@Model.Name required placeholder="Название фильма" class="input">
 
@@ -27,7 +27,7 @@
                     }
                 </select>
 
-                <input type="date" name="StartDate" 
+                <input type="date" name="StartDate"
                        asp-for="StartDate"
                        value=@Model.StartDate.ToString("yyyy-MM-dd") placeholder="Дата начала" class="input">
 
@@ -37,7 +37,7 @@
                     {
                         @if (item.Id == Model.Country.Id)
                         {
-                            <option value=@item.Id  selected="selected">@item.Name</option>
+                            <option value=@item.Id selected="selected">@item.Name</option>
                         }
                         else
                         {
@@ -48,7 +48,7 @@
                     }
                 </select>
 
-                <input type="number" min="1" 
+                <input type="number" min="1"
                        asp-for="TimeDuration" value=@Model.TimeDuration
                        name="TimeDuration" placeholder="Продолжительность" class="input">
 
@@ -85,6 +85,13 @@
 
                     }
                 </select>
+
+                @if (ViewData["ERROR"] != null)
+                {
+
+                    <div class="span">@ViewData["ERROR"]</div>
+
+                }
 
                 <button class="btn" type="submit">Окей</button>
 
