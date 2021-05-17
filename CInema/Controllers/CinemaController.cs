@@ -144,8 +144,15 @@ namespace Cinema.Controllers
                 Name = x.Name
             }
            ).AsEnumerable();
+
+            if (errorMesaage != "")
+            {
+                ViewData["ERROR"] = errorMesaage;
+                errorMesaage = "";
+            }
             return View(defaultObject);
         }
+        static string errorMesaage;
         [HttpPost]
         public IActionResult AddOrReplaceFilms(FilmViewModel model) 
         {
@@ -180,7 +187,7 @@ namespace Cinema.Controllers
             {
                 if(e.InnerException.ToString().Contains("KINO.TRIGGER_DATE"))
                 {
-                    ViewData["ERROR"] = "Дата введена больше текущей";
+                    errorMesaage = "Дата введена больше текущей";
                 }
             }
              
