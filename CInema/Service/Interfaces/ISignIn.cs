@@ -9,6 +9,5 @@ namespace Cinema.Service.Interfaces
         public bool IsSignedIn();
         public bool IsAdmin();
         public bool IsOperator();
-        public bool IsUser();
     }
 }

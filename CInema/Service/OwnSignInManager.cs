@@ -28,9 +28,5 @@ namespace Cinema.Service
         {
             return user.RoleId == 3;
         }
-        public bool IsUser()
-        {
-            return user.RoleId == 1;
-        }
     }
 }
