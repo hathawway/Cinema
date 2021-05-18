@@ -382,11 +382,31 @@ namespace Cinema.Controllers
         }
         public IActionResult AddOrReplaceSessionFilms(SessionFilmsViewModel model)
         {
-            if (model.Kod != 0)
+            if (model.Kod == 0)
             {
-
+                _context.SessionFilms.Add(new SessionFilms()
+                {
+                    FilmKod = model.Film.Id,
+                    FilmStartDate = model.FilmStart,
+                    FreePlaces = model.FreeSeatsAmount,
+                    Hall = model.ZalNumber,
+                    Places = model.SeatsAmount,
+                    TicketPrice = model.TicketPrice,
+                });
             }
-
+            else
+            {
+                var toEdit = _context.SessionFilms.
+                                        Where(x => x.Kod == model.Kod).
+                                        Select(x => x).First();
+                toEdit.FilmKod = model.Film.Id;
+                toEdit.FilmStartDate = model.FilmStart;
+                toEdit.FreePlaces = model.FreeSeatsAmount;
+                toEdit.Hall = model.ZalNumber;
+                toEdit.Places = model.SeatsAmount;
+                toEdit.TicketPrice = model.TicketPrice;
+            }
+            _context.SaveChanges();
             return RedirectToAction("SessionFilms", "Cinema");
         }
         [HttpPost]
