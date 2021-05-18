@@ -119,6 +119,7 @@ namespace Cinema.Controllers
                 defaultMode = _context.Users.Where(x => x.Kod == id).
                     Select(x => new UserViewModel() 
                     {
+                        Kod = x.Kod,
                         Login = x.Login,
                         Password = x.Password,
                         Role = _context.Roles.Where(u => u.Kod == x.RoleId).
@@ -132,6 +133,7 @@ namespace Cinema.Controllers
 
             var employees = _context.Users.Select(e => new UserViewModel
             {
+                Kod = e.Kod,
                 Login = e.Login,
                 Password = e.Password,
                 Role = _context.Roles.Where(u => u.Kod == e.RoleId)
@@ -145,6 +147,11 @@ namespace Cinema.Controllers
             ViewData["TableName"] = "Сотрудники";
             ViewData["Headers"] = new string[] {"","Логин", "Пароль", "Роль"};
             ViewData["TableData"] = employees.ToArray();
+            ViewData["Roles"] = _context.Roles.Select(x => new IdName() 
+            {
+                Id = x.Kod,
+                Name = x.Name,
+            }).AsEnumerable();
             return View(defaultMode);
         }
 
@@ -156,10 +163,18 @@ namespace Cinema.Controllers
                 toEdit.Login = model.Login;
                 toEdit.Password = model.Password;
                 toEdit.RoleId = model.Role.Id;
+            } else
+            {
+                _context.Users.Add(new User()
+                {
+                    Login = model.Login,
+                    Password = model.Password,
+                    RoleId = model.Role.Id,
+                });
             }
 
             _context.SaveChanges();
-            return View();
+            return RedirectToAction("AllUsers", "User");
         }
     }
 }

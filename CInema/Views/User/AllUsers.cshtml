@@ -7,7 +7,7 @@
             <form class="column_add" asp-action="EditUser" asp-controller="User">
                 <div class="text1">Добавление данных</div>
 
-                <input value="@Model.Kod" type="hidden"/>
+                <input value="@Model.Kod" asp-for="Kod" type="hidden"/>
 
                 <input type="text" 
                        asp-for="Login"
@@ -19,9 +19,9 @@
 
                 <select class="select" asp-for="Role.Id" type="text" title="Role">
                     {
-                    @foreach (var item in (ViewData["TableData"]) as IEnumerable<UserViewModel>)
+                    @foreach (var item in (ViewData["Roles"]) as IEnumerable<IdName>)
                     {
-                        <option value=@item.Role.Id>@item.Role.Name</option>
+                        <option value=@item.Id>@item.Name</option>
                     }
 
                     }
