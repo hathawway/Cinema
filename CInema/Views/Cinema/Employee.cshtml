@@ -51,11 +51,11 @@
                         <tr class="row">
                             <td class="col" style="width:130px">
                                 <div class="container_btn">
-                                    <button class="btn_change" type="submit"><a style="color:#000000; text-decoration:none;" href="/Cinema/?id=@item.Id">Редактировать</a></button>
+                                    <button class="btn_change" type="submit"><a style="color:#000000; text-decoration:none;" href="/Cinema/?id=@item.Kod">Редактировать</a></button>
 
 
 
-                                    @using (Html.BeginForm("", "Cinema", new { id = item.Id }, FormMethod.Post))
+                                    @using (Html.BeginForm("", "Cinema", new { id = item.Kod }, FormMethod.Post))
                                     {
                                         <button class="btn_change" type="submit">Удалить</button>
                                     }
