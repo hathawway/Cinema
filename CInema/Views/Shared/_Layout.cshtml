@@ -20,26 +20,31 @@
                 <div class="header_logo">Реестр кинофильмов</div>
 
                 <nav class="nav__link">
-                    @if (SignInManager.IsAdmin()) 
+                    @if (SignInManager.IsSignedIn())
                     {
-                       
-                        @await Html.PartialAsync("_LayoutTable")
-                        
-                        @await Html.PartialAsync("_LayoutDictionary")
-                        @await Html.PartialAsync("_LayoutQuery")
-                        <a class="nav_link" href="/Cinema/FormReport">Документ</a>
+                        @if (SignInManager.IsAdmin())
+                        {
 
-                        <a class="nav_link" href="/User/Logout">Выход</a>
-                    }
-                    else if @if (SignInManager.IsOperator())
-                    {
-                        
-                        @await Html.PartialAsync("_LayoutTable")
-                        
-                        @await Html.PartialAsync("_LayoutDictionary")
+                            @await Html.PartialAsync("_LayoutTable")
 
-                        <a class="nav_link" href="/User/Logout">Выход</a>
+                            @await Html.PartialAsync("_LayoutDictionary")
+                            @await Html.PartialAsync("_LayoutQuery")
+                            <a class="nav_link" href="/Cinema/FormReport">Документ</a>
+
+                            <a class="nav_link" href="/User/Logout">Выход</a>
+                        }
+                        else if (SignInManager.IsOperator())
+                        {
+
+                            @await Html.PartialAsync("_LayoutTable")
+
+                            @await Html.PartialAsync("_LayoutDictionary")
+
+                            <a class="nav_link" href="/User/Logout">Выход</a>
+                        }
                     }
+
+
 
                 </nav>
             </div>
