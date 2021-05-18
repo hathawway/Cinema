@@ -278,7 +278,7 @@ namespace Cinema.Controllers
                                     }).First(),
                                     
             }).ToArray();
-            ViewData["TableName"] = "Семпы фильма";
+            ViewData["TableName"] = "Участие в фильмах";
             ViewData["Headers"] = new string[] { "", "Фильм", "Сотрудник", "Должность" };
             ViewData["TableData"] = filmsEmpsViewModel;
             ViewData["Films"] = _context.Films.Select(x => new FilmViewModel

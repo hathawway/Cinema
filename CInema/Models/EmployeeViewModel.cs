@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,10 +15,13 @@ namespace Cinema.Models
         /*
          * Имя 
          */
+        [Required]
         public string FirstName { get; set; }
         /*
          * Фамилия
          */
+
+        [Required]
         public string SecondName { get; set; }
         /*
          * Отчество
@@ -26,6 +30,8 @@ namespace Cinema.Models
         /*
          * Дата рождения
          */
+
+        [Required]
         public DateTime BirthDay{ get; set; }
 
         public int Age()
