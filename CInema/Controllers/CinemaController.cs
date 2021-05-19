@@ -481,7 +481,7 @@ namespace Cinema.Controllers
         }
 
         #region Employees
-        public IActionResult Employees(long id) 
+        public IActionResult Employee(long id) 
         {
             var employess = _context.Employees.
                                         Select(x => new EmployeeViewModel() 
@@ -526,14 +526,14 @@ namespace Cinema.Controllers
                 toEdit.BirthDay= model.BirthDay;
             }
             _context.SaveChanges();
-            return RedirectToAction("Employees", "Cinema");
+            return RedirectToAction("Employee", "Cinema");
         }
 
         public IActionResult DeleteEmployee(long id)
         {
             _context.Employees.Remove(_context.Employees.First(x => x.Kod == id));
             _context.SaveChanges();
-            return RedirectToAction("Employees", "Cinema");
+            return RedirectToAction("Employee", "Cinema");
         }
         #endregion
 
