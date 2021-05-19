@@ -491,7 +491,7 @@ namespace Cinema.Controllers
                                             FirstName = x.FirstName,
                                             SecondName = x.SecondName,
                                             ThirdName = x.ThirdName,
-                                        });
+                                        }).ToArray();
             EmployeeViewModel defaultModel = new();
 
             if (id != 0)
