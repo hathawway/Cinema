@@ -1,0 +1,52 @@
+﻿@{ ViewData["Title"] = "Реестр кинофильмов"; }
+@model IdName
+
+<div class="container">
+    <div class="main_container">
+        <form class="column_add" asp-controller="Query" asp-action="ApproximateAge" method="get">
+            <select class="select" type="text" title="ApproximateAge" asp-for="@Model.Id">
+
+                @foreach (var item in (ViewData["Employes"]) as IEnumerable<IdName>)
+                {
+                    @if (item.Id == Model.Id)
+                    {
+                        <option value=@item.Id selected="selected">@item.Name</option>
+                    }
+                    else
+                    {
+                        <option value=@item.Id>@item.Name</option>
+                    }
+                }
+
+            </select>
+            <button class="btn" type="submit">Показать</button>
+        </form>
+        <div class="column_see" style="width:100%">
+            <div class="text1" style="margin-bottom:10px;">@ViewData["TableName"]</div>
+            <div class="container_table">
+                <table class="table">
+                    <tr class="row">
+                        @if (ViewData["Table"] != null)
+                        {
+                            @foreach (var item in (ViewData["Headers"]) as string[])
+                            {
+                                <td class="col" style="background:#eee;">@item</td>
+                            }
+                        }
+
+                    </tr>
+                    @if (ViewData["Table"] != null)
+                    {
+
+                        <tr class="row">
+                            <td class="col">@ViewData["Table"]</td>
+                        </tr>
+
+                    }
+
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>

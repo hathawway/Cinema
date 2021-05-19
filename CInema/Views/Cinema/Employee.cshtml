@@ -5,7 +5,7 @@
 <div class="container">
     <div class="main_container">
 
-        <form class="column_add" asp-action="AddOrReplaceFilms" asp-controller="Cinema">
+        <form class="column_add" asp-action="AddOrReplaceEmployee" asp-controller="Cinema">
             <div class="text1">Добавление данных</div>
 
             <input type="hidden" asp-for="Kod" value=@Model.Kod />
@@ -51,11 +51,11 @@
                         <tr class="row">
                             <td class="col" style="width:130px">
                                 <div class="container_btn">
-                                    <button class="btn_change" type="submit"><a style="color:#000000; text-decoration:none;" href="/Cinema/?id=@item.Kod">Редактировать</a></button>
+                                    <button class="btn_change" type="submit"><a style="color:#000000; text-decoration:none;" href="/Cinema/AddOrReplaceEmployee?id=@item.Kod">Редактировать</a></button>
 
 
 
-                                    @using (Html.BeginForm("", "Cinema", new { id = item.Kod }, FormMethod.Post))
+                                    @using (Html.BeginForm("DeleteEmployee", "Cinema", new { id = item.Kod }, FormMethod.Post))
                                     {
                                         <button class="btn_change" type="submit">Удалить</button>
                                     }

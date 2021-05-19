@@ -179,6 +179,9 @@ namespace Cinema.Controllers
             }
 
             ViewData["Table"] = response;
+
+            ViewData["TableName"] = "Примерный возраст";
+            ViewData["Headers"] = new string[] { "Возраст" };
             con.Close();
 
             return View();
@@ -212,6 +215,9 @@ namespace Cinema.Controllers
             }
 
             ViewData["Table"] = response;
+
+            ViewData["TableName"] = "Строка продолжительности";
+            ViewData["Headers"] = new string[] { "Продолжительность" };
             con.Close();
 
             return View();
@@ -224,10 +230,12 @@ namespace Cinema.Controllers
                 Id = x.Kod,
                 Name = x.FIO(),
             }).AsEnumerable();
+
             if (model.Id == 0)
             {
                 model.Id = (ViewData["Employes"] as IEnumerable<IdName>).First().Id;
             }
+
             OracleConnection con = new();
             con.ConnectionString = ConnectionString;
             con.Open();
@@ -244,6 +252,10 @@ namespace Cinema.Controllers
             }
 
             ViewData["Table"] = response;
+
+            ViewData["TableName"] = "Строка ФИО";
+            ViewData["Headers"] = new string[] { "ФИО" };
+
             con.Close();
 
             return View();
@@ -275,6 +287,9 @@ namespace Cinema.Controllers
             con.Close();
             }
 
+
+            ViewData["TableName"] = "Фактический и потенциальный доход";
+            ViewData["Headers"] = new string[] { "Фактический", "Потенциальный"};
             return View();
         }
 

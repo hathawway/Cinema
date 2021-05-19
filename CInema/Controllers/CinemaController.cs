@@ -499,7 +499,10 @@ namespace Cinema.Controllers
                 defaultModel = employess.First(x => x.Kod == id);
             }
             ViewData["TableData"] = employess;
-            
+
+
+            ViewData["TableName"] = "Съмочная группа";
+            ViewData["Headers"] = new string[] { "", "Фамилия", "Имя", "Отчество", "Дата рождения" };
             return View(defaultModel);
         }
         
