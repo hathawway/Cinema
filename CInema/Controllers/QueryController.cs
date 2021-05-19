@@ -149,5 +149,105 @@ namespace Cinema.Controllers
         
             return View();
         }
+
+        [HttpGet]
+        public IActionResult ApproximateAge(IdName model)
+        {
+            ViewData["Employes"] = _context.Employees.Select(x => new IdName()
+            {
+                Id = x.Kod,
+                Name = x.FIO(),
+                }).AsEnumerable();
+
+            if (model.Id == 0)
+            {
+                model.Id = (ViewData["Employes"] as IEnumerable<IdName>).First().Id;
+            }
+            OracleConnection con = new();
+            con.ConnectionString = ConnectionString;
+            con.Open();
+
+            OracleCommand cmd = con.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SELECT PACKAGE__P.AGE(" + model.Id.ToString() +") FROM DUAL";
+
+            OracleDataReader reader = cmd.ExecuteReader();
+            string response = "";
+            while (reader.Read())
+            {
+                response += reader.GetString(0);
+            }
+
+            ViewData["Table"] = response;
+            con.Close();
+
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult FilmTime(IdName model)
+        {
+            ViewData["Films"] = _context.Films.Select(x => new IdName()
+            {
+                Id = x.Kod,
+                Name = x.Name,
+            }).AsEnumerable();
+            if (model.Id == 0)
+            {
+                model.Id = (ViewData["Films"] as IEnumerable<IdName>).First().Id;
+            }
+            OracleConnection con = new();
+            con.ConnectionString = ConnectionString;
+            con.Open();
+
+            OracleCommand cmd = con.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SELECT PACKAGE__P.TIME_FILM(" + model.Id.ToString() + ") FROM DUAL";
+
+            OracleDataReader reader = cmd.ExecuteReader();
+            string response = "";
+            while (reader.Read())
+            {
+                response += reader.GetString(0);
+            }
+
+            ViewData["Table"] = response;
+            con.Close();
+
+            return View();
+        }
+        [HttpGet]
+        public IActionResult Fio(IdName model)
+        {
+            ViewData["Employes"] = _context.Employees.Select(x => new IdName()
+            {
+                Id = x.Kod,
+                Name = x.FIO(),
+            }).AsEnumerable();
+            if (model.Id == 0)
+            {
+                model.Id = (ViewData["Employes"] as IEnumerable<IdName>).First().Id;
+            }
+            OracleConnection con = new();
+            con.ConnectionString = ConnectionString;
+            con.Open();
+
+            OracleCommand cmd = con.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SELECT PACKAGE__P.FULLNAME(" + model.Id.ToString() + ") FROM DUAL";
+
+            OracleDataReader reader = cmd.ExecuteReader();
+            string response = "";
+            while (reader.Read())
+            {
+                response += reader.GetString(0);
+            }
+
+            ViewData["Table"] = response;
+            con.Close();
+
+            return View();
+        }
+
     }
 }

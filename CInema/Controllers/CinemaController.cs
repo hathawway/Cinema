@@ -1,26 +1,33 @@
 ﻿using Cinema.Domain.Db;
+using Cinema.Domain.Models.Employee;
 using Cinema.Domain.Models.Film;
 using Cinema.Models;
 using Cinema.Models.Common;
 using Cinema.Service.Interfaces;
+using iText.IO.Font;
+using iText.Kernel.Font;
+using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Layout.Element;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Drawing;
+using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
-using Xceed.Document.NET;
-using Xceed.Words.NET;
 
 namespace Cinema.Controllers
 {
     public class CinemaController : Controller
     {
+        private readonly IWebHostEnvironment environment;
         private readonly CinemaDbContext _context;
         public CinemaController(
             CinemaDbContext context,
-            ISignIn signInManager)
+            IWebHostEnvironment environment
+)
         {
+            this.environment = environment;
             _context = context;
         }
 
@@ -36,7 +43,7 @@ namespace Cinema.Controllers
                     Id = x.Kod,
                     Country = _context.Countries.
                                         Where(c => c.Kod == x.CountryKod).
-                                        Select(c => new IdName() 
+                                        Select(c => new IdName()
                                         {
                                             Id = c.Kod,
                                             Name = c.Name
@@ -109,7 +116,7 @@ namespace Cinema.Controllers
                 TimeDuration = x.TimeDuration
             });
             ViewData["TableData"] = cinemas.ToArray();
-            ViewData["Headers"] = new string[]{ 
+            ViewData["Headers"] = new string[]{
                 "",
                 "Название фильма",
                 "Киностудия",
@@ -121,7 +128,7 @@ namespace Cinema.Controllers
             ViewData["TableName"] = "Фильмы";
 
             ViewData["Genres"] = _context.Genres.Select(x => new GenreViewModel
-            { 
+            {
                 Id = x.Kod,
                 Name = x.Name
             }
@@ -154,7 +161,7 @@ namespace Cinema.Controllers
         }
         static string errorMesaage;
         [HttpPost]
-        public IActionResult AddOrReplaceFilms(FilmViewModel model) 
+        public IActionResult AddOrReplaceFilms(FilmViewModel model)
         {
             if (model.Id != 0)
             {
@@ -183,14 +190,14 @@ namespace Cinema.Controllers
             try
             {
                 _context.SaveChanges();
-            } catch(DbUpdateException e)
+            } catch (DbUpdateException e)
             {
-                if(e.InnerException.ToString().Contains("KINO.TRIGGER_DATE"))
+                if (e.InnerException.ToString().Contains("KINO.TRIGGER_DATE"))
                 {
                     errorMesaage = "Дата введена больше текущей";
                 }
             }
-             
+
 
             return RedirectToAction("Films", "Cinema");
         }
@@ -217,13 +224,13 @@ namespace Cinema.Controllers
             ViewData["TableData"] = boxOffices;
             return View();
         }
-        
+
         #region FilmEmps
         [HttpGet]
         public IActionResult FilmsEmp(long id)
         {
             FilmsEmpViewModel defautlModel = new();
-            if (id != 0) 
+            if (id != 0)
             {
                 defautlModel = _context.FilmsEmps.Where(x => x.Kod == id).Select(x => new FilmsEmpViewModel
                 {
@@ -258,25 +265,25 @@ namespace Cinema.Controllers
                 Employee = _context.Employees.
                                     Where(h => h.Kod == x.EmployeeKod).
                                     Select(h => new IdName()
-                                    { 
+                                    {
                                         Id = h.Kod,
                                         Name = h.FIO(),
                                     }).First(),
                 EmployeeType = _context.EmployeeTypes.
                                     Where(et => et.Kod == x.TypeEmployeeKod).
                                     Select(et => new IdName()
-                                    { 
+                                    {
                                         Id = et.Kod,
                                         Name = et.Name,
                                     }).First(),
                 Film = _context.Films.
                                     Where(f => f.Kod == x.FilmKod).
                                     Select(f => new IdName()
-                                    { 
+                                    {
                                         Id = f.Kod,
                                         Name = f.Name
                                     }).First(),
-                                    
+
             }).ToArray();
             ViewData["TableName"] = "Участие в фильмах";
             ViewData["Headers"] = new string[] { "", "Фильм", "Сотрудник", "Должность" };
@@ -289,7 +296,7 @@ namespace Cinema.Controllers
             ViewData["Employees"] = _context.Employees.Select(x => new EmployeeViewModel
             {
                 Kod = x.Kod,
-                ThirdName = x.FIO() 
+                ThirdName = x.FIO()
             }).AsEnumerable();
             ViewData["EmployeesType"] = _context.EmployeeTypes.Select(x => new TypeEmployeeViewModel
             {
@@ -301,7 +308,7 @@ namespace Cinema.Controllers
         [HttpPost]
         public IActionResult AddOrReplaceFilmsEmps(FilmsEmpViewModel model)
         {
-            if (model.Kod == 0) 
+            if (model.Kod == 0)
             {
                 _context.FilmsEmps.Add(new FilmsEmp()
                 {
@@ -309,7 +316,7 @@ namespace Cinema.Controllers
                     TypeEmployeeKod = model.EmployeeType.Id,
                     FilmKod = model.Film.Id,
                 });
-            }else
+            } else
             {
                 var toEdit = _context.FilmsEmps.
                                         Where(x => x.Kod == model.Kod).
@@ -373,7 +380,7 @@ namespace Cinema.Controllers
             ViewData["TableName"] = "Расписание";
             ViewData["Headers"] = new string[] { "", "Фильм", "Начало", "Номер зала", "Количество мест", "Цена за билет", "Количество свободных мест" };
             ViewData["TableData"] = filmSession;
-            ViewData["Films"] = _context.Films.Select(x => new FilmViewModel 
+            ViewData["Films"] = _context.Films.Select(x => new FilmViewModel
             {
                 Id = x.Kod,
                 Name = x.Name
@@ -419,81 +426,113 @@ namespace Cinema.Controllers
         #endregion
 
         [HttpGet]
-        public IActionResult FormReport() 
+        public IActionResult FormReport()
         {
-            var values = _context.Films.Select(x => new
+            var otchet = _context.Films.Select(x => new
             {
-                Country = x.CountryKod,
+                Country = _context.Countries.First(c => c.Kod == x.CountryKod).Name,
+                Rating = _context.Ratings.First(r => r.Kod == x.RatingKod).Name,
                 Director = _context.FilmsEmps.
-                                        Where(fe => fe.FilmKod == x.Kod && fe.TypeEmployeeKod == 2).
-                                        Select(fe => fe.EmployeeKod).ToArray(),
+                                              Where(fe => fe.FilmKod == x.Kod
+                                                      && fe.TypeEmployeeKod == 2).
+                                              Select(fe => fe.EmployeeKod).
+                                              ToArray(),
+                Tickets = _context.SessionFilms.Where(s => s.FilmKod == x.Kod).
+                                                Select(s => s.Places - s.FreePlaces).Sum(),
                 Film = x.Name,
-                Rating = x.RatingKod,
-                Tickets = _context.BoxOffices.
-                                    Where(bo => bo.KodFilm == x.Kod).
-                                    Select(bo => bo.TotalSum).Sum()
             }).ToArray();
 
-            var itog = values.GroupBy(x => new { x.Country, x.Director}).Select(x => 
-                new 
+
+            var directors = _context.Employees.Select(x => new {
+                Kod = x.Kod,
+                Fio = x.FIO()
+            }).ToArray();
+
+            var directorsToFilms = otchet.GroupBy(x => new { x.Country, x.Director }).
+                Select(x => new
                 {
-                    CountryKod = x.Key.Country,
-                    DirectorKod = x.Key.Director,
-                    Films = x.Select(f => new {f.Film, f.Rating, f.Tickets }).OrderBy(f => f.Rating)
-                }
-            ).ToArray();
-            var itog_2 = itog.Select(x => 
-                    new
-                    {
-                      Country = _context.Countries.First(c => c.Kod == x.CountryKod),
-                      Director = _context.Employees.First(e => x.DirectorKod.Contains(e.Kod)),
-                      FilmName = x.Films.Select(f => f.Film).ToArray(),
-                      Tickets = x.Films.First().Tickets,
-                    }).ToArray();
-            string pathDocument = AppDomain.CurrentDomain.BaseDirectory + "example.docx";
+                    Country = x.Key.Country,
+                    Directors = directors.Where(e => x.Key.Director.Contains(e.Kod)).
+                                                    Select(e => e.Fio).ToArray(),
+                    Film = x.Select(f => f.Film).ToArray(),
+                    Tickets = x.Select(t => t.Tickets).First(),
+                    Rating = x.Select(r => r.Rating).First(),
+                }).OrderBy(x => x.Rating).ToArray();
+            var output = directorsToFilms.Select(x =>
+            "Страна: " + x.Country + "." +
+            " Режиссёр(ы): " + string.Join(",", x.Directors) + "." +
+            " Фильмы: " + string.Join(",", x.Film) + "." +
+            " Количество билетов: " + x.Tickets).ToArray();
 
-            // создаём документ
-            DocX document = DocX.Create(pathDocument);
+            MemoryStream ms = new();
+            PdfWriter writer = new(ms);
+            PdfDocument pdf = new(writer);
+            Document docu = new(pdf);
+            var FONT = "./Font/arial.ttf";
+            PdfFont font = PdfFontFactory.CreateFont(FONT, PdfEncodings.IDENTITY_H);
 
-            // создаём таблицу с 3 строками и 2 столбцами
-            Table table = document.AddTable(3, 5);
-            // располагаем таблицу по центру
-            table.Alignment = Alignment.center;
-            // меняем стандартный дизайн таблицы
-            table.Design = TableDesign.TableGrid;
-
-            // заполнение ячейки текстом
-            table.Rows[0].Cells[0].Paragraphs[0].Append("Тест");
-            // заполнение ячейки ссылкой
-            Hyperlink hyperlinkBlog =
-                    document.AddHyperlink("progtask.ru", new Uri("https://progtask.ru"));
-
-            table.Rows[0].Cells[1].Paragraphs[0].AppendHyperlink(hyperlinkBlog).
-                                                 UnderlineStyle(UnderlineStyle.singleLine);
-
-            // объединяем 2 ячейки
-            table.Rows[1].MergeCells(0, 1);
-            // заполняем полученную ячейку
-            table.Rows[1].Cells[0].Paragraphs[0].Append("Тест").
-                                            // устанавливаем размер текста
-                                            FontSize(26).
-                                            // выравниваем текст по центру ячейки
-                                            Alignment = Alignment.center;
-
-            // заполняем ячейку, меняя цвет текста и его размер
-            table.Rows[2].Cells[0].Paragraphs[0].Append("Тест").
-                                                 Color(Color.Green).
-                                                 FontSize(20);
-            // удаляем ячейку
-            table.DeleteAndShiftCellsLeft(2, 1);
-
-            // создаём параграф и вставляем таблицу
-            document.InsertParagraph().InsertTableAfterSelf(table);
-
-            // сохраняем документ
-            document.Save();
-            return View();
+            docu.SetFont(font);
+            foreach (string onLine in output)
+            {
+                docu.Add(new Paragraph(onLine));
+            }
+            docu.Close();
+            return File(ms.GetBuffer(), "application/pdf", "grouppies.pdf");
         }
+
+        #region Employees
+        public IActionResult Employees(long id) 
+        {
+            var employess = _context.Employees.
+                                        Select(x => new EmployeeViewModel() 
+                                        {
+                                            Kod = x.Kod,
+                                            BirthDay = x.BirthDay,
+                                            FirstName = x.FirstName,
+                                            SecondName = x.SecondName,
+                                            ThirdName = x.ThirdName,
+                                        });
+            EmployeeViewModel defaultModel = new();
+
+            if (id != 0)
+            {
+                defaultModel = employess.First(x => x.Kod == id);
+            }
+            ViewData["TableData"] = employess;
+            
+            return View(defaultModel);
+        }
+        
+        public IActionResult AddOrReplaceEmployee(EmployeeViewModel model)
+        {
+            if (model.Kod != 0)
+            {
+                _context.Employees.Add(new Employee() 
+                {
+                    FirstName = model.FirstName,
+                    SecondName = model.SecondName,
+                    ThirdName = model.ThirdName,
+                    BirthDay = model.BirthDay,
+                });
+            } else
+            {
+                var toEdit = _context.Employees.First(x => x.Kod == model.Kod);
+                toEdit.FirstName = model.FirstName;
+                toEdit.SecondName = model.SecondName;
+                toEdit.ThirdName = model.ThirdName;
+                toEdit.BirthDay= model.BirthDay;
+            }
+            _context.SaveChanges();
+            return RedirectToAction("Employees", "Cinema");
+        }
+
+        public IActionResult DeleteEmployee(long id)
+        {
+            _context.Employees.Remove(_context.Employees.First(x => x.Kod == id));
+            _context.SaveChanges();
+            return RedirectToAction("Employees", "Cinema");
+        }
+        #endregion
 
     }
 }
