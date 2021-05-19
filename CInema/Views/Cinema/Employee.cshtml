@@ -19,7 +19,7 @@
 
             <div class="span"><span style="font-size:15px; margin-left:20px; margin-top:20px; font-weight:700;" asp-validation-for="SecondName"></span></div>
 
-            <input type="text" name="ThirdName" value=@Model.ThirdName asp-for="ThirdName" required placeholder="Отчетсво" class="input">
+            <input type="text" name="ThirdName" value=@Model.ThirdName asp-for="ThirdName" placeholder="Отчетсво" class="input">
 
 
             <input type="date" name="BirthDay"
@@ -66,7 +66,7 @@
                             <td class="col">@item.FirstName</td>
                             <td class="col">@item.ThirdName</td>
 
-                            <td class="col">@item.BirthDay</td>
+                            <td class="col">@item.BirthDay.ToShortDateString()</td>
 
 
                         </tr>
