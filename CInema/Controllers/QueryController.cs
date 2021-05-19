@@ -184,7 +184,7 @@ namespace Cinema.Controllers
             ViewData["Headers"] = new string[] { "Возраст" };
             con.Close();
 
-            return View();
+            return View(model);
         }
 
         [HttpGet]
@@ -205,7 +205,7 @@ namespace Cinema.Controllers
 
             OracleCommand cmd = con.CreateCommand();
             cmd.CommandType = CommandType.Text;
-            cmd.CommandText = "SELECT PACKAGE__P.TIME_FILM(" + model.Id.ToString() + ") FROM DUAL";
+            cmd.CommandText = "SELECT PACKAGE__P.TIME_FILM(" + _context.Films.First(x=> x.Kod == model.Id).TimeDuration.ToString() + ") FROM DUAL";
 
             OracleDataReader reader = cmd.ExecuteReader();
             string response = "";
@@ -220,7 +220,7 @@ namespace Cinema.Controllers
             ViewData["Headers"] = new string[] { "Продолжительность" };
             con.Close();
 
-            return View();
+            return View(model);
         }
         [HttpGet]
         public IActionResult Fio(IdName model)
@@ -234,6 +234,7 @@ namespace Cinema.Controllers
             if (model.Id == 0)
             {
                 model.Id = (ViewData["Employes"] as IEnumerable<IdName>).First().Id;
+                model.Name = (ViewData["Employes"] as IEnumerable<IdName>).First().Name;
             }
 
             OracleConnection con = new();
@@ -251,14 +252,14 @@ namespace Cinema.Controllers
                 response += reader.GetString(0);
             }
 
-            ViewData["Table"] = response;
+            ViewData["Table"] = response.Replace("..",".");
 
             ViewData["TableName"] = "Строка ФИО";
             ViewData["Headers"] = new string[] { "ФИО" };
 
             con.Close();
 
-            return View();
+            return View(model);
         }
 
         public IActionResult PotentiaGet(DateFromTo dates)
@@ -266,25 +267,25 @@ namespace Cinema.Controllers
             if (dates.From != DateTime.MinValue)
             {
 
-            OracleConnection con = new();
-            con.ConnectionString = ConnectionString;
-            con.Open();
+                OracleConnection con = new();
+                con.ConnectionString = ConnectionString;
+                con.Open();
 
-            OracleCommand cmd = con.CreateCommand();
-            cmd.CommandType = CommandType.Text;
-            cmd.CommandText = "SELECT PACKAGE__P.INCOME(TO_DATE('" + dates.From.ToShortDateString() + "', 'dd.MM.yyyy')," +
-                " TO_DATE('" + dates.To.ToShortDateString() + "', 'dd.MM.yyyy')) FROM DUAL";
+                OracleCommand cmd = con.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "SELECT PACKAGE__P.INCOME(TO_DATE('" + dates.From.ToShortDateString() + "', 'dd.MM.yyyy')," +
+                    " TO_DATE('" + dates.To.ToShortDateString() + "', 'dd.MM.yyyy')) FROM DUAL";
 
-            OracleDataReader reader = cmd.ExecuteReader();
-            string response = "";
-            while (reader.Read())
-            {
-                response += reader.GetString(0);
-            }
-            var dd = response.Split("\\n");
-            ViewData["fact"] = dd[0];
-            ViewData["potent"] = dd[1];
-            con.Close();
+                OracleDataReader reader = cmd.ExecuteReader();
+                string response = "";
+                while (reader.Read())
+                {
+                    response += reader.GetString(0);
+                }
+                var dd = response.Split("\\n");
+                ViewData["fact"] = dd[0];
+                ViewData["potent"] = dd[1];
+                con.Close();
             }
 
 
