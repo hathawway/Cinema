@@ -1,0 +1,26 @@
+﻿@{ ViewData["Title"] = "Реестр кинофильмов"; }
+@model DateFromTo
+
+<div class="container">
+    <div class="main_container">
+        
+        <div class="column_see" style="width:100%" >
+            <div class="text1" style="margin-bottom:10px;">@ViewData["TableName"]</div>
+            <div class="container_table">
+                <form asp-controller="Query" asp-action="PotentiaGet">
+                    <input type="date"
+                           asp-for="From" placeholder="Дата начала" class="input">
+                    <input type="date"
+                           asp-for="To" placeholder="Дата окончания" class="input">
+                    <button type="submit">вывод</button>
+                </form>
+                @if (ViewData["fact"] != null)
+                {
+                    <div>@ViewData["fact"]</div>
+                    <div>@ViewData["potent"]</div>
+                }
+            </div>
+        </div>
+
+    </div>
+</div>

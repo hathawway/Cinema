@@ -249,5 +249,36 @@ namespace Cinema.Controllers
             return View();
         }
 
+        public IActionResult PotentiaGet(DateFromTo dates)
+        {
+            if (dates.From != DateTime.MinValue)
+            {
+
+            OracleConnection con = new();
+            con.ConnectionString = ConnectionString;
+            con.Open();
+
+            OracleCommand cmd = con.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SELECT PACKAGE__P.INCOME(TO_DATE('" + dates.From.ToShortDateString() + "', 'dd.MM.yyyy')," +
+                " TO_DATE('" + dates.To.ToShortDateString() + "', 'dd.MM.yyyy')) FROM DUAL";
+
+            OracleDataReader reader = cmd.ExecuteReader();
+            string response = "";
+            while (reader.Read())
+            {
+                response += reader.GetString(0);
+            }
+            var dd = response.Split("\\n");
+            ViewData["fact"] = dd[0];
+            ViewData["potent"] = dd[1];
+            con.Close();
+            }
+
+            return View();
+        }
+
+        
+
     }
 }
